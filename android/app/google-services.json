@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "609156743413",
+    "project_id": "dcvcard-9fc36",
+    "storage_bucket": "dcvcard-9fc36.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:609156743413:android:693669561db89685fc05bc",
+        "android_client_info": {
+          "package_name": "com.dcvcard"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "609156743413-00lg7c5fs9sd03b46rsoiol046t6qn3c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dcvcard",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "609156743413-808dfpcpar935koa3dmbjdhfes1idep8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5f-Mkw3LhHVHZ4zgdUAXe8Cewy7C0vJc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "609156743413-808dfpcpar935koa3dmbjdhfes1idep8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
