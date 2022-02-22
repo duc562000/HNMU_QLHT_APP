@@ -13,60 +13,89 @@ import { getFontXD, WIDTHXD, WIDTHXDICON } from "../../Config/Functions";
 import { useNavigation } from "@react-navigation/native";
 import SwiperComponent from "./SwiperComponent";
 import InputForm from "../../components/Input/InputForm";
+import Header from "../../components/Header/Header";
+import FontAwesome5 from "react-native-vector-icons/FontAwesome5"
+import { useForm, Controller } from "react-hook-form";
+import Home from "./Home";
+import { NEWSCREEN,REVIEWS,SCHEDULESCREEN, STUDYRESULT, TESTSCHEDULE, TUITION } from "../../routers/ScreenNames";
+import { Button } from 'react-native-elements';
+import ButtonList from "./ButtonList";
+import { ScrollView } from "react-native-gesture-handler";
+import { ACCOUNT } from "../../routers/ScreenNames";
+
 
 const HomeView = (props) => {
-  const navigation = useNavigation();
-  const { listItem, listItem2 } = props;
+  const navigate = useNavigation();
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        backgroundColor: R.colors.white,
-        paddingHorizontal: 10,
-      }}
-    >
-      <Text>Home</Text>
+    <View style={{ flex: 1 ,backgroundColor:'#fff'}}>
+      <Header  title={"HNMU EDU"} iconGraduation={true} icons = {'graduation-cap'}/>
+      <ScrollView>
+        <View style={{margin:15}}>
+          <TouchableOpacity 
+            
+            style={{backgroundColor:'#2c3092',
+                    borderColor: '#2c3092',
+                    borderWidth: 1,
+                    borderRadius: 10,
+                    flexDirection:'row',
+                    marginBottom:5,
+                    
+                    }}
+            // onPress={() => navigate.navigate(ACCOUNT)}
+          >
+             <Image 
+              source={require('../../assets/images/avatarSv.jpg')}
+              style={{width:100,height:100,margin:10,borderRadius: 50,}}
+             />
+             <View style={{flexDirection:'column',margin:15,alignItems:'center'}}>
+               <Text style={{color:'#fff',fontSize:18}}>Xin chào !</Text>
+               <Text style={{color:'#fff',fontSize:20,fontWeight:'bold'}}>Nguyễn Minh Đức</Text>
+               <Text style={{color:'#fff',fontSize:20,fontWeight:'bold'}}>218401109</Text>
+             </View>
+          </TouchableOpacity>
+        </View>
+          <View style={{height:2 ,backgroundColor:'#2c3092'}}/>
+        <View style={{margin:10}}>
+          <View style={{flexDirection:'row',justifyContent:'space-evenly'}}> 
+            <ButtonList title='TIN TỨC'  iconsName='newspaper-o' Screen = {NEWSCREEN}/>
+            <ButtonList title='LỊCH HỌC' iconsName='calendar' Screen = {SCHEDULESCREEN}/>
+          </View>
+          <View style={{height:1 ,backgroundColor:'#2c3092'}}/>
+          <View style={{flexDirection:'row',justifyContent:'space-evenly'}}> 
+            <ButtonList title='LỊCH THI' iconsName='calendar-check-o' Screen = {TESTSCHEDULE}/>
+            <ButtonList title='KẾT QUẢ HỌC TẬP' iconsName='bar-chart' Screen = {STUDYRESULT}/>
+          </View>
+          <View style={{height:1 ,backgroundColor:'#2c3092'}}/>
+          <View style={{flexDirection:'row',justifyContent:'space-evenly'}}> 
+            <ButtonList title='THÔNG TIN HỌC PHÍ' iconsName='credit-card' Screen = {TUITION}/>
+            <ButtonList title='HÒM THƯ ĐÁNH GIÁ' iconsName='envelope-o' Screen = {REVIEWS}/>
+          </View>
+        </View>
+      
+        <View style={{height:2 ,backgroundColor:'#2c3092'}}/>
+        <View style={{flexDirection:'row',margin:15}}>
+          <Image 
+            source={require('../../assets/images/logo-dai-hoc-thu-do-ha-noi-removebg.png')}
+            style={{width:80,height:80}}
+          />
+          <View style={{flexDirection:'column',marginLeft:10}}>
+            <Text style={{color:'#2c3092',fontSize:20,fontWeight:'bold'}}>Trường đại học Thủ Đô Hà Nội</Text>
+            <Text style={{color:'#bf9000',fontSize:18,fontWeight:'bold'}}>Ha Noi Metropolitan University</Text>
+            <Text> Website      :   http://hnmu.edu.vn/</Text>
+            <Text numberOfLines={1} ellipsizeMode='tail'> Địa chỉ        :   98 Dương Quảng Hàm</Text>
+            <Text> Điện thoại  :   (+84) 24.3833.0708</Text>
+            <Text> Email          :    daotao@hnmu.edu.vn</Text>
+          </View>
+        </View>
+      </ScrollView>  
+    
 
-      <InputForm title={"Ten dang nhap"} />
-    </SafeAreaView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  imgIcon: {
-    width: WIDTHXDICON(150),
-    height: WIDTHXDICON(150),
-  },
-  containerItem: {
-    width: WIDTHXDICON(170),
-    height: WIDTHXDICON(170),
-    borderRadius: WIDTHXD(30),
-    marginHorizontal: WIDTHXD(20),
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: R.colors.white,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 1.84,
-    elevation: 2,
-  },
-  txtTitle: {
-    fontSize: getFontXD(36),
-    marginTop: 5,
-    textAlign: "center",
-    maxWidth: WIDTHXD(220),
-  },
-  txtHeader: {
-    color: R.colors.orange,
-    fontSize: getFontXD(36),
-    marginTop: 5,
-    marginHorizontal: WIDTHXD(40),
-    marginVertical: WIDTHXD(40),
-  },
+  
 });
 
 export default HomeView;

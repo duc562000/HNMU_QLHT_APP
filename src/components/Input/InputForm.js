@@ -1,8 +1,11 @@
 import React from "react";
-import { View, Text, TextInput } from "react-native";
+import { View, Text,TextInput } from "react-native";
+
 import { HEIGHTXD, WIDTHXD, getFontXD } from "../../Config/Functions";
 import R from "../../assets/R";
 import I18n from "../../helper/i18/i18n";
+import Feather from "react-native-vector-icons/Feather"
+
 
 const TextField = (props) => {
   const {
@@ -24,7 +27,9 @@ const TextField = (props) => {
   } = props;
 
   return (
-    <View>
+    
+    <View style={{marginLeft:50,marginRight:50,marginBottom:5,}}>
+  
       <TextInput
         onBlur={onBlur}
         maxLength={maxLength ? maxLength : 256}
@@ -37,35 +42,42 @@ const TextField = (props) => {
         fontSize={13}
         keyboardType={keyboardType}
         onChangeText={(val) => onChangeText(val)}
+        
         style={{
           height: HEIGHTXD(109),
-          color: textColor,
-          borderBottomWidth: 1,
+          backgroundColor:'#fff',
+          borderRadius:5,
+          color: '#000',
+          borderWidth: 1,
           fontSize: fontSize ? fontSize : getFontXD(42),
+          paddingLeft:30,
           paddingVertical: 5,
           paddingHorizontal: 5,
-          borderBottomColor: "#80E0FF",
+          borderColor:'#9fc5f8',
+          
         }}
       />
+      
       <View
         style={{
           height: 20,
-          marginTop: 5,
           paddingHorizontal: 5,
         }}
+        
       >
         {error && (
           <Text
             style={{
-              color: tinColor ? tinColor : "#ffc700",
+              color: tinColor ? tinColor : "red",
               fontSize: getFontXD(32),
             }}
           >
-            {I18n.t("PleaseEnterField")}
+            {("Tài khoản hoặc mật khẩu không hợp lệ !")}
           </Text>
         )}
       </View>
     </View>
+    
   );
 };
 

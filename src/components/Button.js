@@ -21,8 +21,10 @@ const Button = (props) => {
           justifyContent: "center",
           alignItems: "center",
           backgroundColor,
-          borderRadius: 10,
+          borderRadius: 5,
           marginVertical: HEIGHTXD(50),
+          marginLeft:50,
+          marginRight:50,
           elevation: 2,
           shadowColor: "#000",
           shadowOffset: {
@@ -40,8 +42,10 @@ const Button = (props) => {
         style={[
           {
             fontSize: getFontXD(46),
-            color: R.colors.textMain,
+            color: '#fff',
+            fontWeight:'bold',
             fontWeight: "600",
+            padding:10
           },
           { ...txtStyle },
         ]}

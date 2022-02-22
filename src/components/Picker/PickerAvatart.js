@@ -167,9 +167,10 @@ const styles = StyleSheet.create({
   imgAvatar: {
     width: WIDTHXD(240),
     height: WIDTHXD(240),
-    borderRadius: WIDTHXD(190),
-    borderColor: R.colors.main,
+    borderRadius: WIDTHXD(130),
+    borderColor: "#ccc",
     borderWidth: 1,
+    backgroundColor:'#fff'
   },
   containerImg: {
     width: WIDTHXD(240),

@@ -16,16 +16,19 @@ import {
 import Icon from "react-native-vector-icons/AntDesign";
 import { useNavigation } from "@react-navigation/native";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import FontAwesome5  from "react-native-vector-icons/FontAwesome5";
+import { LOGINSCREEN } from "../../routers/ScreenNames";
 
 const Header = (props) => {
-  const { title, isBack } = props;
+  const { title, isBack, addPress,icons,isLogout} = props;
+  
   const navigate = useNavigation();
   return (
     <>
       <SafeAreaView
         style={{
           flex: 0,
-          backgroundColor: R.colors.main,
+          backgroundColor: '#2c3092',
         }}
       />
 
@@ -40,14 +43,18 @@ const Header = (props) => {
         ) : (
           <View style={{ width: 35, height: 30 }} />
         )}
-
+        
+        <FontAwesome5 name={icons} style={{position:'absolute',left:130}} size={23} color={R.colors.white} />
         <Text numberOfLines={1} style={styles.txtTitle}>
           {title}
         </Text>
-        {props.addPress ? (
-          <TouchableOpacity onPress={props.addPress}>
-            <Ionicons
-              name={"ios-add-circle-outline"}
+        
+        {isLogout ? (
+          <TouchableOpacity
+            onPress={() => navigate.navigate(LOGINSCREEN)}
+          >
+            <FontAwesome5
+              name={"sign-out-alt"}
               size={WIDTHXDICON(80)}
               color={R.colors.white}
             />
@@ -64,12 +71,12 @@ export default Header;
 
 const styles = StyleSheet.create({
   headerContainer: {
-    height: HEIGHTXD(120),
+    height: HEIGHTXD(180),
     width: "100%",
     flexDirection: "row",
     paddingHorizontal: WIDTHXD(40),
     alignItems: "center",
-    backgroundColor: R.colors.main,
+    backgroundColor: '#2c3092',
     shadowColor: "#181F4D21",
     shadowOffset: { width: 1, height: 1 },
     shadowOpacity: 1,
@@ -77,11 +84,14 @@ const styles = StyleSheet.create({
     elevation: 1,
   },
   txtTitle: {
+    alignItems:'center',
+    marginLeft:30,
     flex: 1,
-    fontSize: getFontXD(42),
-    textAlign: "center",
+    fontSize: getFontXD(45),
+    textAlign:'center',
     fontWeight: "bold",
     color: R.colors.white,
     textTransform: "uppercase",
+    
   },
 });
