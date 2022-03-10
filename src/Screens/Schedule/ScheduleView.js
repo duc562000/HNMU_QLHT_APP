@@ -1,188 +1,165 @@
-import React,{useState} from "react";
-import { View, Text, FlatList,StyleSheet, Dimensions } from "react-native";
-import Header from "../../components/Header/Header";
-import R from "../../assets/R";
-import PickerDate from "../../components/Picker/PickerDate";
-import YearPickerModal from "../../components/Picker/YearPickerModal";
-import HocKyPicker from "../../components/Picker/HocKyPicker";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import { ButtonGroup } from 'react-native-elements'
-import TableTuition from "../Tuition/TableTuition";
+import React from 'react';
+import {
+  SafeAreaView,
+  StyleSheet,
+  StatusBar,
+  Alert,
+  ActivityIndicator,
+  ImageBackground,
+} from 'react-native';
+
+import WeekView, {createFixedWeekDate,addLocale} from 'react-native-week-view';
+import R from '../../assets/R';
+import HeaderTitleCenter from '../../components/Header/Header';
+import { Icon } from 'react-native-elements';
 
 
-const listtab = [
-  {
-    day : 'Thứ 2'
-  },
-  {
-    day : 'Thứ 3'
-  },
-  {
-    day : 'Thứ 4'
-  },
-  {
-    day : 'Thứ 5'
-  },
-  {
-    day : 'Thứ 6'
-  },
-  {
-    day : 'Thứ 7'
-  },
-  {
-    day : 'C.Nhật'
-  }
-]
-  const data = [
-    {
-      id:1,
-      day:'Thứ 2',
-      giobatdau:'12:30',
-      gioketthuc:'13:30',
-      monhoc:'Kỹ thuật số',
-      tenlop:'102020131231',
-      thoigian:'8/12/2019-10/6/2019',
-      phonghoc:'CS1-A2-206',
-      giaovien:'Lê chí chung'
-    },
-    {
-      id:2,
-      day:'Thứ 2',
-      giobatdau:'12:30',
-      gioketthuc:'13:30',
-      monhoc:'Kỹ thuật số',
-      tenlop:'102020131231',
-      thoigian:'8/12/2019-10/6/2019',
-      phonghoc:'CS1-A2-206',
-      giaovien:'Lê chí chung'
-    },
-    {
-      id:3,
-      day:'Thứ 4',
-      giobatdau:'12:30',
-      gioketthuc:'15:30',
-      monhoc:'Kỹ thuật số',
-      tenlop:'102020131231',
-      thoigian:'8/12/2019-10/6/2019',
-      phonghoc:'CS1-A2-206',
-      giaovien:'Lê chí chung'
-    },
-  ]
 
-const ScheduleView = (props) => {
+const sampleFixedEvents = [
+  {
+    id: 1,
+    description: 'Lập trình web',
+    time:'12:00 - 14:00',
+    tc:'3',
+    teacher:'Trương Đức Phương',
+    classroom:'A2-201',
+    startDate: createFixedWeekDate(1, 12),
+    endDate: createFixedWeekDate(1, 14),
+  },
+  {
+    id: 2,
+    description: 'Lập trình hướng đối tượng',
+    time:'8:00 - 11:00',
+    tc:'3',
+    teacher:'Nguyễn Minh Huy',
+    classroom:'A2-201',
+    startDate: createFixedWeekDate(2, 8),
+    endDate: createFixedWeekDate(2, 11),
+  },
+  {
+    id: 3,
+    description: 'Cấu trúc dữ liệu và giải thuật',
+    time:'14:15 - 17:30',
+    tc:'2',
+    teacher:'Hà Đặng Cao Tùng',
+    classroom:'A3-301',
+    startDate: createFixedWeekDate(4, 14,15),
+    endDate: createFixedWeekDate(4, 17,30),
+  },
+  {
+    id: 4,
+    description: 'Quản trị mạng',
+    time:'8:00 - 12:00',
+    tc:'2',
+    teacher:'Nguyễn Chí Chung',
+    classroom:'A3-303',
+    startDate: createFixedWeekDate(5, 8),
+    endDate: createFixedWeekDate(5, 12),
+  },
+];
+
+// For debugging purposes
+const showFixedComponent = false;
+const MyEventComponent = ({ event, position }) => (
+  <Icon
+    name={event.iconName}
+    type={event.iconType}
+    color={event.color}
+    size={position.height}
+  />
+);
+
+class ScheduleView extends React.Component {
+  state = {
+    events:sampleFixedEvents ,
+    selectedDate: new Date(),
+  };
+
+  onEventPress = ({description, time,tc,teacher,classroom}) => {
+    Alert.alert(
+      `Môn ${description} `,
+      `Số tín chỉ:${tc}\nThời gian:${time}\nGiáo viên : ${teacher}\nPhòng học:${classroom}`
+    );
+  };
   
-  const renderItem = ({item,index}) => {
-    return(
-      <View key={index} style={{margin:10,borderWidth:3,borderColor:'#2c3092',borderLeftWidth:10,borderRadius:5}}>
-          <View style={{flexDirection:'row'}}>
-            <Text  style={{fontSize:39,color:'red',fontWeight:'bold',textAlignVertical:'center'}}>{item.giobatdau} {'\n'}     -    {'\n'}{item.gioketthuc}</Text>
-            <View style={{width:3,height:'100%',backgroundColor:'#2c3092',}}/>
-            <View style={{flexDirection:'column',padding:5}}>
-              <Text style={styles.text}>Môn học : {item.monhoc}</Text>
-              <Text style={styles.text}>Tên lớp tín chỉ : {item.tenlop}</Text>
-              <Text style={styles.text}>Thơi gian : {item.thoigian}</Text>
-              <Text style={styles.text}>Phòng : {item.phonghoc}</Text>
-              <Text style={styles.text}>Giáo viên : {item.giaovien}</Text>
-            </View>
-          </View>
-          <View>
-            
-          </View>
-      </View>
-    )
-  }
 
-  
-  const [day,setday] = useState('thứ 2')
-  const [itemSelected,setItemSelected] = useState(data)
-  const setDayFilter = day => {
-    if(day !== 'thứ 2'){
-      setItemSelected([...data.filter(e=>e.day === day)])
-    } else {
-      setItemSelected(data)
-    }
-    setday(day)
-  }
-
-  return (
-    
-    <View style={{ flex: 1,backgroundColor:'#ace8ff'}}>
-       <Header title={"Lịch học"} isBack ={true}/>
-      
-        <View style={{flexDirection:'row',margin:15,marginLeft:50}}>
-          <HocKyPicker/>
-          <YearPickerModal/>
-        </View>
-
-        
-          <View style={styles.listtab}>
-            {
-              listtab.map(e=> (
-                <TouchableOpacity 
-                  style={[styles.btnTab,day === e.day && styles.btnTabActive]}
-                  onPress={()=> setDayFilter(e.day)}
-                >
-                  <Text style={[styles.textTab,day === e.day && styles.textActive]}>{e.day}</Text>
-                </TouchableOpacity>
-                
-                ))
-            }
-
-
-          </View>
-        
-
-        {/* <ButtonGroup
-        buttons={buttons}
-        selectedIndex={element}
-        onPress={SetstatusFilter}
-        containerStyle={{backgroundColor:'#fff', marginBottom: 20 }}
-      /> */}
-        <FlatList
-          data={itemSelected}
-          keyExtractor={(e,i) => i.toString()}
-          renderItem={renderItem}
+  render() {
+    const {events, selectedDate} = this.state;
+    addLocale('vi', {
+    weekdaysShort: 'C.Nhật_T.Hai_T.Ba_T.Tư_T.Năm_T.Sáu_T.Bảy'.split('_'),
+  });
+    return (
+      <>
+        <StatusBar barStyle="dark-content" />
+        <HeaderTitleCenter
+          title={'Lịch học kì II 2021-2022'}
+          isBack='true'
         />
-       
-    </View>
-  );
-};
+        <ImageBackground source={R.images.bgBody} style={styles.container}>
+          <WeekView
+            
+            fixedHorizontally={true}
+            // EventComponent={MyEventComponent}
+            events={sampleFixedEvents}
+            onEventPress={this.onEventPress}
+            // Recommended props:
+            showTitle={false} // if true, shows this month and year
+            numberOfDays={7}
+            // display short name days, e.g. Mon, Tue, etc
+            // ... other props
+            locale='vi'
+            formatDateHeader="ddd"
+            startHour={7}
+            hoursInDisplay={15}
+            headerStyle={styles.header}
+            headerTextStyle={styles.headerText}
+            hourTextStyle={styles.hourText}
+            eventContainerStyle={styles.eventContainer}
+            gridColumnStyle={styles.gridColumn}
+            gridRowStyle={styles.gridRow}
+          />
+        </ImageBackground>
+      </>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
-  text:{
-    
-    maxWidth:230,
-    fontSize:16.5,
-    fontWeight:'bold'
+  container: {
+    flex: 1,
   },
-  
-  listtab:{
-    
-    flexDirection:'row',
-    padding:6,
-  },
-  btnTab:{
-    // width:Dimensions.get('window').width / 3.5,
-    
-    flexDirection:'row',
-    borderWidth:0.5,
+  header: {
+    backgroundColor: '#0d4293',
+    borderColor: R.colors.lightBlue2,
+    borderWidth:1,
+    shadowOpacity:0.2,
+    shadowRadius:2,
     borderColor:'#ccc',
-    padding:5,
-    justifyContent:'center',
-    backgroundColor:'#fff'
   },
-  textTab:{
-    color:'#2c3092',
-    fontSize:16,
-    fontWeight:'bold'
-    
+  headerText: {
+    color: 'white',
+    fontSize:13,
+    fontWeight:'500'
   },
-  btnTabActive :{
-    backgroundColor:'#2c3092',
+  hourText: {
+    color: R.colors.colorBtnLogin,
+    fontSize:15,
+    fontWeight:'500'
   },
-  textActive :{
-    color:'#fff'
-  }
-})
+  eventContainer: {
+    backgroundColor:'#0d4293',
+    borderWidth:1,
+    shadowOpacity:0.2,
+    shadowRadius:2,
+    borderColor:'#ccc',
+  },
+  gridRow: {
+    opacity:0
+  },
+  gridColumn: {
+    borderLeftWidth: 1,
+    borderColor: '#ddd',
+  },
+});
 
 export default ScheduleView;

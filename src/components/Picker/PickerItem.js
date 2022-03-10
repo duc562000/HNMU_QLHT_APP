@@ -19,8 +19,13 @@ import {
   WIDTHXDICON,
 } from '../../Config/Functions';
 import Icon from 'react-native-vector-icons/AntDesign';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-const data = [];
+const data = [
+  {
+    name:'Hà n'
+  }
+];
 /**
  * This Function to show piker with list date (for example [{name:'Picker1'},{name:'Picker2}])
  * @callback onValueChange return value of item you choice
@@ -94,6 +99,8 @@ export default class PickerItem extends Component {
 
   render() {
     const {
+      title,
+      QRcode,
       width,
       onValueChange,
       containerStyle,
@@ -104,12 +111,25 @@ export default class PickerItem extends Component {
       defaultIndex,
       iconDropdown,
       iconDropdownStyle,
+      heightInput,
       disabled,
       isTriangle,
       textStyle,
+      widthInput,
+      textColor,
+      fontSize,
+      
     } = this.props;
     return (
       <View style={styles.cell}>
+        {title ? <Text style={{
+          fontSize: R.fontsize.fontSizeLabel,
+          fontWeight: '700',
+          color: R.colors.black,
+          marginBottom: 5
+          }}>
+            <Text>{title}</Text>
+          </Text> : null}
         <TouchableOpacity
           disabled={disabled}
           ref={(button) => {
@@ -122,9 +142,18 @@ export default class PickerItem extends Component {
           style={[
             styles.pickerStyle,
             containerStyle !== null && containerStyle,
-            height && {height},
-            width && {width},
-          ]}>
+            {
+            height: heightInput ? heightInput : 50,
+            width:widthInput ? widthInput : 350,
+            color: textColor ? textColor : R.colors.black,
+            fontSize: fontSize ? fontSize : R.fontsize.fontSizeInputText,
+            fontWeight: '400',
+            backgroundColor: R.colors.colorBgInputText,
+            borderRadius: 10,
+            borderWidth:0.5,
+            }
+          ]}
+          >
           <Text
             numberOfLines={1}
             style={[
@@ -132,12 +161,19 @@ export default class PickerItem extends Component {
               width && {width: width - WIDTHXD(125)},
               textStyle ? textStyle : {},
             ]}>
-            {defaultValue || this.state.value}
+            {this.state.value ? this.state.value : defaultValue}
           </Text>
-          {iconDropdown || isTriangle ? (
-            <Icon name={'up'} size={20} color={R.colors.borderGray} />
+          
+          {/* {QRcode && <TouchableOpacity style={{position: 'absolute', right: 17}}
+                                         
+        >
+          <FontAwesome name="qrcode" size={20} color="black" />
+        </TouchableOpacity>
+        } */}
+        {iconDropdown || isTriangle ? (
+            <FontAwesome name="angle-down" size={24} color={R.colors.lightBlue} />
           ) : (
-            <Icon name={'down'} size={20} color={R.colors.borderGray} />
+            <FontAwesome name="angle-down" size={24} color={R.colors.lightBlue}/>
           )}
         </TouchableOpacity>
         <ModalDropdown
@@ -150,9 +186,11 @@ export default class PickerItem extends Component {
           defaultIndex={defaultIndex || 0}
           textStyle={styles.dropdown_text}
           dropdownStyle={[
-            styles.dropdown_dropdown,
+            styles.dropdown_dropdown,{
+              width: widthInput ? widthInput : WIDTHXD(960),
+            },
             {maxHeight: HEIGHTXD(99 * Math.min(data.length, 6) + 12)},
-            width && {width},
+             width && {width},
           ]}
           options={data !== null && data}
           onSelect={(value) => {
@@ -198,7 +236,8 @@ export default class PickerItem extends Component {
 
 const styles = StyleSheet.create({
   cell: {
-    flex: 0,
+    flex:0,
+    paddingBottom:15,
   },
   dropdown: {
     alignSelf: 'center',
@@ -209,7 +248,7 @@ const styles = StyleSheet.create({
     fontSize: getFontXD(42),
   },
   dropdown_dropdown: {
-    width: WIDTHXD(960),
+    width:WIDTHXD(960),
     maxHeight: HEIGHTXD(200),
     borderBottomLeftRadius: WIDTHXD(20),
     borderBottomRightRadius: WIDTHXD(20),
@@ -242,26 +281,13 @@ const styles = StyleSheet.create({
     width: '100%',
     height: HEIGHTXD(109),
     flexDirection: 'row',
-    paddingHorizontal: WIDTHXD(30),
     justifyContent: 'space-between',
     alignItems: 'center',
     alignSelf: 'center',
     backgroundColor: 'white',
     marginTop: 5,
-    borderRadius: 7,
-    borderWidth: 0.7,
-    borderColor: '#DBDBDB',
     fontSize: getFontXD(42),
-    paddingVertical: 5,
-    paddingHorizontal: 10,
+    paddingHorizontal: 15,
     backgroundColor: 'white',
-    shadowColor: '#AFA9A9',
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 1.84,
-    elevation: 1,
   },
 });

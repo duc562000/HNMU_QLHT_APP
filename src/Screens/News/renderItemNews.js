@@ -1,6 +1,7 @@
 import React,{useCallback} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View ,Image,Linking} from 'react-native';
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
+import R from "../../assets/R";
 
  
 export default function Article({item}) {
@@ -18,7 +19,7 @@ export default function Article({item}) {
       Alert.alert(`Don't know how to open this URL: ${url}`);
     }});
  return(
-    <View style={{flex:1,marginTop:15}}>
+    <View style={{flex:1,marginTop:15,paddingVertical:10}}>
         <TouchableOpacity style={styles.post} onPress={handlePress}>
           <View style={{flexDirection:'row'}}>
             <Image  style={styles.imgNews} source={{uri: item.urlToImage}} ></Image>
@@ -28,7 +29,6 @@ export default function Article({item}) {
             </View>
           </View>
         </TouchableOpacity>
-        <View style={styles.borderButtom}/>
       </View>
     );
   }
@@ -46,16 +46,16 @@ const styles = StyleSheet.create({
           borderRadius:5
         },
         titleText:{
-          color:'black',
-          fontSize:18,
-          fontWeight:'bold',
+          color:R.colors.colorBtnLogin,
+          fontSize:16,
           height:70
         },
         textTime:{
-          color:'#aaa'
+          color:R.colors.blacklight,
+          opacity:0.5
         },
         borderButtom:{
-          height:2,
+          height:1,
           width:'100%',
           backgroundColor:'#2c3092',
           marginTop:15,

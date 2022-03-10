@@ -30,6 +30,9 @@ const colors = {
   unfilledColor: 'rgba(255, 255, 255, 0.5)',
   bgActive: '#DDEEFF',
   contentComment: '#DAE9FF',
+  colorBgInputText: '#F2F2F2',
+  colorBtnLogin:'#1c1d56',
+  blacklight:'#2f3136',
 
   colorBg: '#E8E8E8',
   accent: '#A60014',

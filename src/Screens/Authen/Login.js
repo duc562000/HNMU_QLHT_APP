@@ -1,240 +1,209 @@
-import React, { Component, useState, useEffect, useRef } from "react";
-import {
-  TextInput,
-  View,
-  Text,
-  ImageBackground,
-  Image,
-  StyleSheet,
-  StatusBar,
-  TouchableWithoutFeedback,
-  KeyboardAvoidingView,
-  ScrollView,
-  Platform,
-  Dimensions,
-  Keyboard,
-  TouchableOpacity,
-  SafeAreaView,
-  Alert,
-} from "react-native";
-import R from "../../assets/R";
-import {
-  checkFormatArray,
-  getFontXD,
-  HEIGHTXD,
-  WIDTHXD,
-} from "../../Config/Functions";
-const { width, height } = Dimensions.get("window");
-import { useNavigation } from "@react-navigation/native";
-
-
-import {
-  REGISTER,
-  TABNAVIGATOR,
-  FORGOTPASSWORD,
-} from "../../routers/ScreenNames";
+import React, {Component, useState} from 'react';
+import {View, Text, TouchableOpacity, Image,StatusBar,StyleSheet, ImageBackground,ScrollView,Alert} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {FORGOT_PASSWORD, TABNAVIGATOR,REGISTER, SURVEYSTEP1} from '../../routers/ScreenNames';
+import R from '../../assets/R'
+import InputForm from '../../components/Input/InputForm';
+import InputComponent from '../../components/Input/InputComponent';
+import Header from '../../components/Header/Header';
+import { Controller,useForm } from 'react-hook-form';
 import I18n from "../../helper/i18/i18n";
-import { showAlert, TYPE } from "../../components/DropdownAlert";
-import { loginApi } from "../../apis/Functions/users";
-import { showLoading, hideLoading } from "../../actions/loadingAction";
-import { saveUserToRedux } from "../../actions/users";
-import { connect } from "react-redux";
-import KEY from "../../assets/AsynStorage";
-// import AsyncStorage from "@react-native-community/async-storage";
-import { useForm, Controller } from "react-hook-form";
-import TextForm from "../../components/Input/InputForm";
-import AppText from "../../components/AppText";
-import Button from "../../components/Button";
-import Feather from "react-native-vector-icons/Feather"
-import FontAwesome5 from "react-native-vector-icons/FontAwesome5"
-// import Parse from 'parse/react-native';
-import {UserRegistration} from './UserRegistration';
-import ConfirmEmail from "./ConfirmEmail";
-// import Styles from './Styles';
+import Button from '../../components/Button';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import Entypo from 'react-native-vector-icons/Entypo';
+import ModalForgotPass from '../../components/Modal/ModalForgotPass';
 
-
-// Parse.setAsyncStorage(AsyncStorage);
-// const PARSE_APPLICATION_ID = 'ZQ5CstdydeHDFyJyLKZUWRMsOhslmv0wL6HtTJVH';
-// const PARSE_HOST_URL ='https://parseapi.back4app.com/';
-// const PARSE_JAVASCRIPT_ID = 'PZRLelnsubMWNSsHPwya1BO00I7HiXWfuvTIa045';
-// Parse.initialize(PARSE_APPLICATION_ID, PARSE_JAVASCRIPT_ID);
-// Parse.serverURL = PARSE_HOST_URL;
-
-
-const Login = (props) => {
-
-  // const [username, setUsername] = useState('');
-  // const [password, setPassword] = useState('');
-
-  // const doUserLogIn = async function () {
-  //   // Note that these values come from state variables that we've declared before
-  //   const usernameValue = username;
-  //   const passwordValue = password;
-  //   return await Parse.User.logIn(usernameValue, passwordValue)
-  //     .then(async (loggedInUser) => {
-  //       // logIn returns the corresponding ParseUser object
-  //       Alert.alert(
-  //         'Success!',
-  //         `User ${loggedInUser.get('username')} has successfully signed in!`,
-  //       );
-  //       // To verify that this is in fact the current user, currentAsync can be used
-  //       const currentUser = await Parse.User.currentAsync();
-  //       console.log(loggedInUser === currentUser);
-  //       return true;
-  //     })
-  //     .catch((error) => {
-  //       // Error can be caused by wrong parameters or lack of Internet connection
-  //       Alert.alert('Error!', error.message);
-  //       return false;
-  //     });
-  // };
-  
+function Login() {
+  const navigate = useNavigation();
+  const [pass,setPass] = useState("")
   const {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm();
-
-  const navigate = useNavigation();
-
-
-
-  const onSubmit = (data) => {
-    navigate.navigate(TABNAVIGATOR);
-    console.log(data);
+  } = useForm({
+    defaultValues: {
+      masinhvien: '',
+      pass: '',
+    },
+  });
+  const onSubmit = ({ masinhvien, pass }) => {
+    if(masinhvien=='218401109' && pass =='562000'){
+      navigate.navigate(SURVEYSTEP1);
+      console.log({masinhvien,pass});
+    } else {
+      Alert.alert('Sai tên đăng nhập hoặc mật khẩu')
+    }
+    
+    
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={{flex:1}}
-      enabled={false}
-    >
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <ImageBackground source={require('../../assets/images/LoginScreen.png')} style={{ flex:1, paddingHorizontal: 10 }}>
-          <Image source={require('../../assets/images/logo-dai-hoc-thu-do-ha-noi-removebg.png')} 
-          style={{width:160,height:150,position:'absolute',alignSelf:'center',marginTop:10}}
-          />
-            
-          <View style={{ marginTop: HEIGHTXD(550) }}>
-            <View style={{alignItems:'center',marginBottom:10}}>
-              <Text style={{fontSize:16,fontWeight:'bold',marginBottom:10}}>Hệ thống quản lý học tập dành cho sinh viên</Text>
-            </View>
-            <Controller
-              control={control}
-              rules={{
-                required: true,
-              }}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <TextForm
-                  textColor={R.colors.white}
-                  placeHolderColor={"#ccc"}
-                  placeholder={("Nhập mã sinh viên")}
-                  onBlur={onBlur}
-                  onChangeText={onChange}
-                  value={value}
-                  
-                />
-              )}
-              name="username"
-              defaultValue="username"
-            />
-            <FontAwesome5 style={{left:53,top:45,position:'absolute'}} name="user-alt" size={22} color="#2c3092" />
-            <Controller
-              control={control}
-              rules={{
-                required: true,
-              }}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <TextForm
-                  textColor={R.colors.white}
-                  placeHolderColor={"#ccc"}
-                  title={"password"}
-                  placeholder={("Nhập mật khẩu")}
-                  onBlur={onBlur}
-                  onChangeText={onChange}
-                  value={value}
-                  isPassword={true}
-                  error={errors.password}
-                  
-                />
-              )}
-              name="password"
-              defaultValue="password"
-            />
-            <FontAwesome5 style={{left:53,top:105,position:'absolute'}} name="lock" size={22} color="#2c3092" />
-            <View style={styles.row}>
-              <View />
-              <TouchableOpacity onPress={() => navigate.navigate(FORGOTPASSWORD)}>
-                <AppText style={styles.txtTitle} i18nKey={"ForgotPassword"} />
-              </TouchableOpacity>
+    <>
+    <StatusBar barStyle='dark-content'/>
+    <View
+      style={{
+        flex:1
+        
+        }}>
+      
+          <ImageBackground source={R.images.bgLogo} style={{flex:2/6,alignItems:'center'}}>
+            <Image 
+              source={require('../../assets/images/logo-dai-hoc-thu-do-ha-noi-removebg.png')} 
+              style ={{
+                height:170,
+                width:170,
+                margin:70
+                      }}>
+            </Image>
+          </ImageBackground>
+          <ImageBackground
+                  borderRadius={35}
+                  source={R.images.bgLogin}
+                  style={{
+                    flex:3/3.5,
+                    paddingTop:10,
+                    position:'absolute',
+                    bottom:0,
+                    left:0,
+                    right:0,
+                    paddingHorizontal:20,
+                    }}>
+            <Text style={{paddingVertical:30,fontSize:14.5,fontWeight:'500',color:R.colors.colorBtnLogin}}>Hệ thống quản lý học tập dành cho sinh viên HNMU</Text>
+            <View style={{alignItems: 'center',}}>
+              <Controller
+                  control={control}
+                  rules={{
+                    required: true,
+                  }}
+                render={({ field: { onChange, onBlur, value, } }) => (
+                  <InputForm
+                        onSubmitEditing={onSubmit}
+                        textColor={R.colors.black}
+                        onBlur={onBlur}
+                        onChangeText={onChange}
+                        value={value}
+                        error={errors.masinhvien}
+                        placeHolderColor={"#333"}
+                        placeholder={"Mã sinh viên"}
+                        widthInput={300}
+                        name={"mã sinh viên"}
+                        padding={50}
+                        icUser={true}
+                        keyboardType={'number-pad'}
+                  />
+                )}
+                  name='masinhvien'
+                  defaultValue=""
+              />
               
+              <Controller
+                  control={control}
+                  rules={{
+                    required: true,
+                  }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <InputForm
+                        textColor={R.colors.black}
+                        onBlur={onBlur}
+                        onChangeText={(val)=>{
+                          onChange(val)
+                          // setPass(val)
+                        }}
+                        onSubmitEditing={onSubmit}
+                        value={value}
+                        error={errors.pass}
+                        placeHolderColor={"#333"}
+                        placeholder={"Mật khẩu"}
+                        isPassword='true'
+                        widthInput={300}
+                        name={"mật khẩu"}
+                        padding={50}
+                        icPass={true}
+                  />
+                )}
+                name="pass"
+                defaultValue=""
+              />
+              <View style={styles.row}>
+                  <View />
+                  <ModalForgotPass/>
+                </View>
+              <View style={{margin:50}}>
+                <Button
+                  // noBackgroundImage='true'
+                  widthBtn={300}
+                  title={'Đăng nhập'}
+                  onPress={handleSubmit(onSubmit)}
+                  >
+                </Button>
+              </View>
+              <View style={{flexDirection:'row',paddingHorizontal:10,paddingVertical:25}}>
+                <Image 
+                  source={require('../../assets/images/logo-dai-hoc-thu-do-ha-noi-removebg.png')}
+                  style={{width:60,height:60}}
+                />
+                <View style={{paddingHorizontal:10,paddingVertical:10}}>
+                    <Text style={{color:'#2c3092',fontSize:21,fontWeight:'bold'}}>Trường đại học Thủ Đô Hà Nội</Text>
+                    <Text style={{color:'#bf9000',fontSize:18,fontWeight:'bold'}}>Ha Noi Metropolitan University</Text>
+                </View>
+              </View>
             </View>
-            <Button
-              onPress={handleSubmit(onSubmit)}
-              backgroundColor={"#2c3092"}
-              title={("Đăng nhập")}
-            />
-            {/* <Button
-              onPress={() => navigate.navigate(REGISTER)}
-              backgroundColor={"#55CEBF"}
-              title={I18n.t("Register")}
-            /> */}
-            {/* <View
-              style={{
-                marginTop: 20,
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <TouchableOpacity onPress={() => navigate.navigate(TABNAVIGATOR)}>
-                <AppText style={styles.txtTitle} i18nKey={"GoBackHome"} />
-              </TouchableOpacity>
-            </View> */}
-          </View>
-      </ImageBackground>  
-    </TouchableWithoutFeedback>
-  </KeyboardAvoidingView>
+            <View style={{flex:2,flexDirection:'row',marginBottom:30,justifyContent:'space-evenly'}}>
+                <View >
+                  <TouchableOpacity onPress={() => {Alert.alert('Website','https://hnmu.edu.vn/')}} style={{alignItems:'center'}}>
+                    <AntDesign name="earth" size={24} color={R.colors.colorBtnLogin} />
+                    <Text style={{color:R.colors.colorBtnLogin,paddingTop:10}}>Website</Text>
+                  </TouchableOpacity>
+                </View>
+                <View >
+                  <TouchableOpacity onPress={() => {Alert.alert('Email','daotao@hnmu.edu.vn')}} style={{alignItems:'center'}}>
+                    <Entypo name="mail" size={24} color={R.colors.colorBtnLogin} />
+                    <Text style={{color:R.colors.colorBtnLogin,paddingTop:10}}>Email</Text>
+                  </TouchableOpacity>
+                </View>
+
+                <View >
+                  <TouchableOpacity onPress={() => {Alert.alert('Liên hệ','(+84) 24.3833.0708')}} style={{alignItems:'center'}}>
+                    <Entypo name="phone" size={24} color={R.colors.colorBtnLogin} />
+                    <Text style={{color:R.colors.colorBtnLogin,paddingTop:10}}>Liên hệ</Text>
+                  </TouchableOpacity>
+                </View>
+
+                <View >
+                  <TouchableOpacity onPress={() => {Alert.alert('Địa chỉ','Cơ sở 1:98 phố Dương Quảng Hàm, Quan Hoa, Cầu Giấy, Hà Nội')}} style={{alignItems:'center'}}>
+                    <Entypo name="map" size={24} color={R.colors.colorBtnLogin} />
+                    <Text style={{color:R.colors.colorBtnLogin,paddingTop:10}}>Địa chỉ</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+        </ImageBackground>
+    </View>
+    </>
   );
-};
+}
 
 const styles = StyleSheet.create({
-  sectionStyle: {
-   
-    
-    
-    
-  },
-  imageStyle: {
-   
-    left:20,
-    height: 25,
-    width: 25,
-    
-  },
   row: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginRight:50,
+    flexDirection:'row',
+    alignItems:'center',
+    justifyContent:'space-between'
   },
-
-  txtTitle: {
-    fontSize: getFontXD(42),
-    color: '#2c3092',
-    fontWeight: "bold",
-    textDecorationLine:'underline'
+  txtColor: {
+    color:R.colors.white,
+    fontSize:16,
   },
+  txtSmall:{
+    color:R.colors.colorBtnLogin,
+    fontSize:15,
+    maxWidth:200,
+    
+  },
+  txtSmallColor:{
+    color:R.colors.colorNameBottomMenu,
+    fontSize:15,
+    textDecorationLine:'underline',
+    
+  }
 });
 
-const mapStateToProps = (state) => {
-  return {
-    loadingModal: state.ModalLoadingReducer,
-  };
-};
-
-export default connect(mapStateToProps, {
-  saveUserToRedux,
-  showLoading,
-  hideLoading,
-})(Login);
+export default Login;

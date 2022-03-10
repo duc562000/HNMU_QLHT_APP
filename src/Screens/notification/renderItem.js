@@ -1,61 +1,81 @@
-// import React,{useCallback} from 'react';
-// import {StyleSheet, Text, TouchableOpacity, View ,Image,Linking} from 'react-native';
-// import formatDistanceToNow from "date-fns/formatDistanceToNow";
+import React from "react";
+import {
+  StyleSheet,
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  Linking,
+  Alert,
+} from "react-native";
+import R from "../../assets/R";
+import {useNavigation} from '@react-navigation/native';
+import { NEWS_READ_SCREEN, NOTIFICATION_DETAILS } from "../../routers/ScreenNames";
+import { data } from "./DataNews";
 
- 
-// export default function Article({item}) {
-//   const publishedFromNow = formatDistanceToNow(new Date(item.publishedAt));
-//   const handlePress = useCallback(async () => {
-//     // Checking if the link is supported for links with custom URL scheme.
+export default function RenderItem({ item }) {
+//   const openLink = () => {
 //     const url = item.url;
-//     const supported = await Linking.canOpenURL(url);
 
-//     if (supported) {
-//       // Opening the link with some app, if the URL scheme is "http" the web link should be opened
-//       // by some browser in the mobile
-//       await Linking.openURL(url);
-//     } else {
-//       Alert.alert(`Don't know how to open this URL: ${url}`);
-//     }});
-//  return(
-//     <View >
-//         <TouchableOpacity style={styles.post} onPress={handlePress}>
-//           <View style={{flexDirection:'row'}}>
-//             <Image  style={styles.imgNews} source={{uri: item.urlToImage}} ></Image>
-//             <View style={{flexDirection:'column',flex:1,justifyContent:'space-evenly'}}>
-//               <Text numberOfLines={3}  style={styles.titleText}>{item.title}</Text>
-//               <Text style={styles.textTime}>{publishedFromNow}</Text>
-//             </View>
-//           </View>
-//         </TouchableOpacity>
-//         <View style={styles.borderButtom}/>
-//       </View>
-//     );
-//   }
-// const styles = StyleSheet.create({
-        
-//         post:{
-          
-//         },
-//         imgNews:{
-//           width:160,
-//           height:100,
-//           marginRight:20
-//         },
-//         titleText:{
-//           color:'black',
-//           fontSize:18,
-//           fontWeight:'bold',
-//           height:70
-//         },
-//         textTime:{
-//           color:'#aaa'
-//         },
-//         borderButtom:{
-//           height:2,
-//           width:'100%',
-//           backgroundColor:'tomato',
-//           marginTop:20,
-//           marginBottom:20,
-//         }
-//       });
+//     // https://reactnative.dev/docs/linking
+//     Linking.canOpenURL(url).then((supported) => {
+//       if (supported) {
+//         Linking.openURL(url);
+//       } else {
+//         Alert.alert("Broken Link!");
+//       }
+//     });
+//   };
+
+//   const publishedFromNow = formatDistanceToNow(new Date(item.publishedAt));
+const navigate = useNavigation();
+    return (
+            <View style={{paddingHorizontal:15,
+                    marginVertical:12}}>
+                                <TouchableOpacity 
+                                    style={{flexDirection:'row'}} 
+                                    onPress={()=> navigate.navigate(NOTIFICATION_DETAILS,
+                                        { item})}
+                                    
+                                >
+                                <Image 
+                                        source={{
+                                        uri: item.image
+                                        }}
+                                        
+                                        style={styles.smallNewsImg}
+                                />
+                                    <View style={{flexDirection:'column',paddingLeft:10}}>
+                                        <Text numberOfLines={3} style={styles.txtsmallNews}>{item.title}</Text>
+                                        <Text style={styles.timesmallNews}>{item.datetime}</Text>
+                                    </View>
+                                    
+                                </TouchableOpacity>
+                    </View>
+);
+}
+
+const styles = StyleSheet.create({
+    smallNews:{
+        alignItems:'center',
+    },
+    smallNewsImg:{
+        height:90,
+        width:200,
+        maxWidth:'39%',
+        resizeMode: 'stretch',
+        borderRadius:10,
+    },
+    txtsmallNews:{
+        fontSize:15,
+        color:R.colors.colorBtnLogin,
+        fontWeight:'500',
+        marginBottom:8,
+        width:205,
+    },
+    timesmallNews:{
+        fontSize:13,
+        color:R.colors.blacklight,
+        opacity:0.5
+    }
+});

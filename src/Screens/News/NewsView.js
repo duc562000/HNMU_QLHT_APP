@@ -1,5 +1,5 @@
 import React,{ useState,useEffect } from "react";
-import { View, Text,StyleSheet,SafeAreaView,ActivityIndicator, FlatList } from "react-native";
+import { View, Text,StyleSheet,SafeAreaView,ActivityIndicator, FlatList, ImageBackground } from "react-native";
 import Header from "../../components/Header/Header";
 import PickerAvatart from "../../components/Picker/PickerAvatart";
 import R from "../../assets/R";
@@ -26,7 +26,7 @@ const NewsView = (props) => {
     fetchData();
   },[page]);
   return (
-    <View style={{ flex: 1,backgroundColor:'#ace8ff'}}>
+    <ImageBackground source={R.images.bgBody} style={{ flex: 1}}>
        <Header title={"Tin Tức"} isBack ={true}/>
        <SafeAreaView style={styles.container}>
       
@@ -44,18 +44,18 @@ const NewsView = (props) => {
           onEndReached={() => setPage((page) => page + 1)}
         />)}
     </SafeAreaView>  
-    </View>
+    </ImageBackground>
   );
 };
 
 export default NewsView;
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#ace8ff',
+   
     
   },
   center: {
-    paddingTop:50,
+    paddingTop:360,
     flex: 1,
     justifyContent: "center",
     alignItems: "center",

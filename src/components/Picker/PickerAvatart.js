@@ -52,14 +52,15 @@ const PickerImg = (props) => {
       setImgAvatart(image.path);
     });
   };
+  const {source} = props;
   return (
     <TouchableOpacity onPress={() => setModalVisible(true)}>
       <View style={styles.containerImg}>
         {imgAvatart ? (
-          <Image source={{ uri: imgAvatart }} style={styles.imgAvatar} />
+          <Image source={{uri:imgAvatart}} style={styles.imgAvatar} />
         ) : (
           <Image
-            source={{ uri: props.avatartDefault }}
+            source={source}
             style={styles.imgAvatar}
           />
         )}
@@ -165,11 +166,11 @@ const styles = StyleSheet.create({
     color: "#1473E6",
   },
   imgAvatar: {
-    width: WIDTHXD(240),
-    height: WIDTHXD(240),
-    borderRadius: WIDTHXD(130),
-    borderColor: "#ccc",
-    borderWidth: 1,
+    width: WIDTHXD(300),
+    height: WIDTHXD(300),
+    borderRadius: WIDTHXD(180),
+    borderColor: R.colors.lightBlue,
+    borderWidth: 2,
     backgroundColor:'#fff'
   },
   containerImg: {
@@ -178,8 +179,12 @@ const styles = StyleSheet.create({
   },
   iconPicker: {
     position: "absolute",
-    bottom: 0,
-    right: 0,
+    bottom: -16,
+    right:-25,
+    backgroundColor:R.colors.white,
+    borderRadius:30,
+    borderWidth:1,
+    borderColor:'#bbb'
   },
 });
 

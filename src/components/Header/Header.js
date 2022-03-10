@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import {
+  Image,
+  ImageBackground,
+  Platform,
   SafeAreaView,
+  StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -13,85 +17,185 @@ import {
   WIDTHXD,
   WIDTHXDICON,
 } from "../../Config/Functions";
-import Icon from "react-native-vector-icons/AntDesign";
 import { useNavigation } from "@react-navigation/native";
-import Ionicons from "react-native-vector-icons/Ionicons";
-import FontAwesome5  from "react-native-vector-icons/FontAwesome5";
-import { LOGINSCREEN } from "../../routers/ScreenNames";
+import { TABNAVIGATOR,} from '../../routers/ScreenNames';
+import SnackBar from "../SnackBar";
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
-const Header = (props) => {
-  const { title, isBack, addPress,icons,isLogout} = props;
-  
+const HeaderTitleCenter = (props) => {
+  const { title, isBack, isTransparent, hideShadow ,QRcode,isIconNoti,isRed,isTittleCenter,isExit} = props;
   const navigate = useNavigation();
   return (
     <>
+    <ImageBackground source={R.images.bgBtn} style={{width:"100%"}}>
       <SafeAreaView
         style={{
           flex: 0,
-          backgroundColor: '#2c3092',
+          
         }}
       />
+      <StatusBar
+        backgroundColor="light"
+        translucent={false}
+        barStyle="light-content"
+      />
+      <SnackBar />
 
-      <View style={styles.headerContainer}>
-        {isBack ? (
-          <TouchableOpacity
-            style={{ width: 35, height: 30 }}
-            onPress={() => navigate.goBack()}
-          >
-            <Icon color={R.colors.white} name={"arrowleft"} size={22} />
-          </TouchableOpacity>
-        ) : (
-          <View style={{ width: 35, height: 30 }} />
-        )}
-        
-        <FontAwesome5 name={icons} style={{position:'absolute',left:130}} size={23} color={R.colors.white} />
-        <Text numberOfLines={1} style={styles.txtTitle}>
+      <View
+        style={
+          isTransparent
+            ? styles.headerContainerTransparent
+            : hideShadow
+            ? styles.headerContainer
+            : styles.headerContainer
+        }
+      >
+        <Text
+          numberOfLines={1}
+          style={[
+            styles.txtTitle,
+            { color: R.colors.white },
+          ]}
+        >
           {title}
         </Text>
+        {QRcode && <TouchableOpacity style={{position: 'absolute', top:10,right:60}}
+                                         
+        >
+          <FontAwesome name="qrcode" size={25} color="white" />
+        </TouchableOpacity>
+        }
+        {isIconNoti && <TouchableOpacity style={{position: 'absolute', top:10,right:15}}
         
-        {isLogout ? (
+        >
+          <FontAwesome name="bell-o" size={25} color="white" />
+        </TouchableOpacity>
+        }
+        {isRed && <View style={{position: 'absolute', top:10,right:16,height:10,width:10,backgroundColor:R.colors.red,borderRadius:10}}
+        />
+        }
+        {isExit && (
           <TouchableOpacity
-            onPress={() => navigate.navigate(LOGINSCREEN)}
+            style={{
+              position: 'absolute',
+              right: 10,
+              width: 50,
+              height: 30,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+            onPress={() => navigate.navigate(TABNAVIGATOR)}>
+            <Text
+              style={{
+                fontSize:getFontXD(42),
+                color:R.colors.white,
+                fontWeight:'bold'
+              }}
+            >
+              Thoát
+            </Text>
+          </TouchableOpacity>
+        )}
+        {props.addPress && (
+          <TouchableOpacity
+            style={{
+              position: "absolute",
+              left: 10,
+            }}
+            onPress={props.addPress}
           >
-            <FontAwesome5
-              name={"sign-out-alt"}
+            <Ionicons
+              name={"ios-add-circle-outline"}
               size={WIDTHXDICON(80)}
-              color={R.colors.white}
+              color={isTransparent ? R.colors.white : R.colors.black}
             />
           </TouchableOpacity>
-        ) : (
-          <View style={{ width: 35, height: 30 }} />
+        )}
+        {isBack && (
+          <TouchableOpacity
+            style={{
+              position: "absolute",
+              left: 10,
+              width: 35,
+              height: 30,
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+            onPress={() => {
+              
+              navigate.goBack();
+            }}
+          >
+            <Ionicons
+              color={isTransparent ? R.colors.white : R.colors.white}
+              name={'chevron-back'}
+              size={22}
+            />
+          </TouchableOpacity>
+        )}
+        {props.filterPress && (
+          <TouchableOpacity
+            style={{
+              position: "absolute",
+              right: 20,
+            }}
+            onPress={props.filterPress}
+          >
+            <Image
+              source={R.images.icFilter}
+              style={{ width: 32, height: 32 }}
+            />
+          </TouchableOpacity>
         )}
       </View>
+    </ImageBackground>        
     </>
   );
 };
 
-export default Header;
+export default HeaderTitleCenter;
 
 const styles = StyleSheet.create({
-  headerContainer: {
-    height: HEIGHTXD(180),
+  headerContainerShadow: {
+    height: 50,
     width: "100%",
     flexDirection: "row",
     paddingHorizontal: WIDTHXD(40),
     alignItems: "center",
-    backgroundColor: '#2c3092',
-    shadowColor: "#181F4D21",
+    backgroundColor: R.colors.black,
+    shadowColor: R.colors.black,
+    justifyContent: "center",
     shadowOffset: { width: 1, height: 1 },
-    shadowOpacity: 1,
-    shadowRadius: 2,
-    elevation: 1,
+    shadowOpacity: 0.12,
+    shadowRadius: 1,
+    elevation: 5,
+  },
+
+  headerContainer: {
+    height: 50,
+    width: "100%",
+    flexDirection: "row",
+    paddingHorizontal: WIDTHXD(40),
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  headerContainerTransparent: {
+    height: 50,
+    width: "100%",
+    flexDirection: "row",
+    paddingHorizontal: WIDTHXD(40),
+    alignItems: "center",
+    backgroundColor:R.colors.black ,
   },
   txtTitle: {
-    alignItems:'center',
-    marginLeft:30,
     flex: 1,
-    fontSize: getFontXD(45),
-    textAlign:'center',
-    fontWeight: "bold",
-    color: R.colors.white,
-    textTransform: "uppercase",
+    fontSize: getFontXD(50),
+    paddingHorizontal: 70,
+    textAlign: 'center',
+    fontWeight: 'bold',
+    color: R.colors.black,
     
   },
+  
 });

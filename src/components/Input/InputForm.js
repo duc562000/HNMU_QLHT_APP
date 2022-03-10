@@ -1,17 +1,27 @@
-import React from "react";
-import { View, Text,TextInput } from "react-native";
-
-import { HEIGHTXD, WIDTHXD, getFontXD } from "../../Config/Functions";
+import React, {useState} from "react";
+import {View, Text, TextInput, TouchableOpacity,Modal,ImageBackground} from "react-native";
+import {HEIGHTXD, WIDTHXD, getFontXD} from "../../Config/Functions";
 import R from "../../assets/R";
-import I18n from "../../helper/i18/i18n";
-import Feather from "react-native-vector-icons/Feather"
+import Icon from "react-native-vector-icons/Feather";
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import PickerDate from "../Picker/PickerDate";
+import AntDesign  from "react-native-vector-icons/AntDesign";
+import Button from '../../components/Button';
 
 
 const TextField = (props) => {
+  const [showPassword, setShowPassword] = useState(false)
+  const [showScoreModal, setShowScoreModal] = useState(false)
   const {
+    isChangePass,
+    icPass,
+    icUser,
+    padding,
+    name,
     title,
     onChangeText,
     isPassword,
+    QRcode,
     maxLength,
     isNumber,
     value,
@@ -23,61 +33,123 @@ const TextField = (props) => {
     placeHolderColor,
     textColor,
     tinColor,
+    isDate,
     fontSize,
+    borderBottomColor,
+    required,
+    autoCapitalize,
+    heightInput,
+    widthInput,
+    secureTextEntry
   } = props;
-
   return (
-    
-    <View style={{marginLeft:50,marginRight:50,marginBottom:5,}}>
-  
-      <TextInput
-        onBlur={onBlur}
-        maxLength={maxLength ? maxLength : 256}
-        placeholderTextColor={placeHolderColor}
-        editable={editable != null ? editable : true}
-        placeholder={placeholder}
-        secureTextEntry={isPassword}
-        autoCapitalize="none"
-        value={value}
-        fontSize={13}
-        keyboardType={keyboardType}
-        onChangeText={(val) => onChangeText(val)}
+    <View>
+      {title ? <Text style={{
+        fontSize: R.fontsize.fontSizeLabel,
+        fontWeight: '700',
+        color: R.colors.black,
+        marginBottom: 8
+      }}>
+        <Text>{title}</Text>
+        {required && <Text style={{color: R.colors.red1}}> *</Text>}
+      </Text> : null}
+      <View style={{justifyContent: 'center'}}>
+        <TextInput
+          onBlur={onBlur}
+          maxLength={maxLength ? maxLength : 256}
+          placeholderTextColor={placeHolderColor ? placeHolderColor : '#8E8E8E'}
+          editable={editable != null ? editable : true}
+          placeholder={placeholder}
+          secureTextEntry={secureTextEntry ? secureTextEntry : isPassword && !showPassword }
+          autoCapitalize={autoCapitalize ? autoCapitalize : "none"}
+          value={value}
+          fontSize={13}
+          keyboardType={keyboardType}
+          onChangeText={(val) => {
+            if (keyboardType === 'number-pad') {
+              const text = val.replace(/[^0-9]/g, "");
+              onChangeText(text)
+            } else {
+              onChangeText(val)
+            }
+          }}
+          style={{
+            height: heightInput ? heightInput : 50,
+            width:widthInput ? widthInput : 350,
+            color: textColor ? textColor : R.colors.black,
+            fontSize: fontSize ? fontSize : R.fontsize.fontSizeInputText,
+            paddingVertical: 5,
+            fontWeight: '500',
+            paddingHorizontal: padding ? padding : 15,
+            backgroundColor: R.colors.colorBgInputText,
+            borderRadius: 10,
+            borderWidth:0.5,
+          }}
+        />
+        {isPassword && <TouchableOpacity style={{position: 'absolute', right: 17}}
+                                         onPress={() => setShowPassword(!showPassword)}
+        >
+          <Icon name={showPassword ? 'eye' : 'eye-off'} size={20} color={'#4B4B4B'}/>
+        </TouchableOpacity>
+        }
         
-        style={{
-          height: HEIGHTXD(109),
-          backgroundColor:'#fff',
-          borderRadius:5,
-          color: '#000',
-          borderWidth: 1,
-          fontSize: fontSize ? fontSize : getFontXD(42),
-          paddingLeft:30,
-          paddingVertical: 5,
-          paddingHorizontal: 5,
-          borderColor:'#9fc5f8',
+        {QRcode && <TouchableOpacity style={{position: 'absolute', right: 17}}
+                                         
+        >
+          <FontAwesome name="qrcode" size={20} color="black" />
+        </TouchableOpacity>
+        }
+        {isDate && <View style={{position: 'absolute', right: 17}}                         
+          >
+            <PickerDate/>
+          </View>
+        }
+        {QRcode && <TouchableOpacity style={{position: 'absolute', right: 17}}
+                                         
+        >
+          <FontAwesome name="qrcode" size={20} color="black" />
+        </TouchableOpacity>
+        }
+        {isChangePass &&<>
+          <TouchableOpacity onPress={() => setShowScoreModal(!showScoreModal)} style={{position: 'absolute', right: 17}}>
+            <FontAwesome name="edit" size={20} color="black" />
+          </TouchableOpacity>
+           
+                          
+                          </> }
+        {icUser && <View style={{position: 'absolute', left: 15,flexDirection:'row'}}
           
-        }}
-      />
-      
+          >
+            <FontAwesome name="user" size={21} color={R.colors.colorBtnLogin} />
+            <View style={{marginLeft:10,height:20,width:0.5,backgroundColor:R.colors.black}}/>
+          </View>
+          }
+        {icPass && <View style={{position: 'absolute', left: 15,flexDirection:'row'}}
+        
+        >
+          <FontAwesome name="lock" size={21} color={R.colors.colorBtnLogin} />
+          <View style={{marginLeft:10,height:20,width:0.5,backgroundColor:R.colors.black}}/>
+        </View>
+        }
+      </View>
       <View
         style={{
           height: 20,
-          paddingHorizontal: 5,
+          marginTop: 5,
         }}
-        
       >
         {error && (
           <Text
             style={{
-              color: tinColor ? tinColor : "red",
+              color: tinColor ? tinColor : R.colors.red1,
               fontSize: getFontXD(32),
             }}
           >
-            {("Tài khoản hoặc mật khẩu không hợp lệ !")}
+            *Vui lòng nhập { name ? name : null }*
           </Text>
         )}
       </View>
     </View>
-    
   );
 };
 

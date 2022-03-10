@@ -8,7 +8,6 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import R from '../assets/R';
-import Block from './Block';
 import {getFontXD, HEIGHTXD} from '../Config/Functions';
 import LinearGradient from 'react-native-linear-gradient';
 import Modal from 'react-native-modal';

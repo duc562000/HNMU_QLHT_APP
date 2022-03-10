@@ -14,7 +14,14 @@ const PickerModal = (props) => {
     const setData = (options) => {
         setchooseData(options)
     }
-    const OPTIONS =['Lập trình web','Giải tích số']
+    const OPTIONS =['Lập trình web',
+                    'Giải tích số',
+                    'Tư Tưởng Hồ Chí Minh',
+                    'Hệ điều hành Linux',
+                    'Quản trị mạng',
+                    'Cấu trúc dữ liệu và giải thuật 1',
+                    'Cấu trúc dữ liệu và giải thuật 2',
+                ]
     const WIDTH = Dimensions.get('window').width;
     const HEIGHT = Dimensions.get('window').height;
     const options = OPTIONS.map((item,index) => {
