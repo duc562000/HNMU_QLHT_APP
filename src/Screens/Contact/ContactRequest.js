@@ -95,6 +95,7 @@ const ContactRequest = (props) => {
                                 placeholder={'Nhập nội dung yêu cầu'}
                                 defaultValue=''
                                 name='content'
+                                multiline={true}
                             />
                             <Button
                                 widthBtn={200}
