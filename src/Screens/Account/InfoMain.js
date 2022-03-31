@@ -14,10 +14,11 @@ import { data } from "../Account/MaterialInfoTab";
 
 
 const InfoMain = (props) => {
-  const {data}=props
+  const {data,dataAPI}=props
+//   console.log('dataAPI',dataAPI)
   const onSubmit = (data) => {
     setShowScoreModal(!showScoreModal)
-    console.log(data);
+    // console.log(data);
   };
   const {
     control,
@@ -47,7 +48,7 @@ const InfoMain = (props) => {
                                         }}
                                 render={({ field: { onChange, onBlur, value, } }) => (
                                     <InputForm
-                                            textColor={R.colors.black}
+                                            textColor={R.colors.color777}
                                             onBlur={onBlur}
                                             onChangeText={onChange}
                                             value={value}
@@ -58,7 +59,7 @@ const InfoMain = (props) => {
                                     />
                                     )}
                                     name='Fullname'
-                                    defaultValue={data.info.name}
+                                    defaultValue={dataAPI.name}
                                 />  
         </View> 
         <View style={{paddingHorizontal:15}} >
@@ -69,7 +70,7 @@ const InfoMain = (props) => {
                                         }}
                                 render={({ field: { onChange, onBlur, value, } }) => (
                                     <InputForm
-                                            textColor={R.colors.black}
+                                            textColor={R.colors.color777}
                                             onBlur={onBlur}
                                             onChangeText={onChange}
                                             value={value}
@@ -80,7 +81,7 @@ const InfoMain = (props) => {
                                     />
                                     )}
                                     name='DateOfBirth'
-                                    defaultValue={data.info.dateOfBirth}
+                                    defaultValue={dataAPI.dateOfBirth}
                                 />  
         </View> 
         <View style={{paddingHorizontal:15}} >
@@ -91,7 +92,7 @@ const InfoMain = (props) => {
                                         }}
                                 render={({ field: { onChange, onBlur, value, } }) => (
                                     <InputForm
-                                            textColor={R.colors.black}
+                                            textColor={R.colors.color777}
                                             onBlur={onBlur}
                                             onChangeText={onChange}
                                             value={value}
@@ -102,7 +103,7 @@ const InfoMain = (props) => {
                                     />
                                     )}
                                     name='studentCode'
-                                    defaultValue={data.info.studentCode}
+                                    defaultValue={dataAPI.studentCode}
                                 />  
         </View>
         <View style={{flexDirection:'row'}}>
@@ -115,7 +116,7 @@ const InfoMain = (props) => {
                                         }}
                                 render={({ field: { onChange, onBlur, value, } }) => (
                                     <InputForm
-                                            textColor={R.colors.black}
+                                            textColor={R.colors.color777}
                                             onBlur={onBlur}
                                             onChangeText={onChange}
                                             value={value}
@@ -128,7 +129,7 @@ const InfoMain = (props) => {
                                     />
                                 )}
                                     name='sexdual'
-                                    defaultValue={data.info.sexdual}
+                                    defaultValue={dataAPI.sexdual}
                                 />  
                     </View> 
                     <View style={{paddingHorizontal:15}} >
@@ -139,7 +140,7 @@ const InfoMain = (props) => {
                                         }}
                                 render={({ field: { onChange, onBlur, value, } }) => (
                                     <InputForm
-                                            textColor={R.colors.black}
+                                            textColor={R.colors.color777}
                                             onBlur={onBlur}
                                             onChangeText={onChange}
                                             value={value}
@@ -151,7 +152,7 @@ const InfoMain = (props) => {
                                     />
                                     )}
                                     name='schoolyear'
-                                    defaultValue={data.info.yearSchool}
+                                    defaultValue={dataAPI.yearSchool}
                                 />  
                     </View>  
                 </View> 
@@ -163,7 +164,7 @@ const InfoMain = (props) => {
                                         }}
                                 render={({ field: { onChange, onBlur, value, } }) => (
                                     <InputForm
-                                            textColor={R.colors.black}
+                                            textColor={R.colors.color777}
                                             onBlur={onBlur}
                                             onChangeText={onChange}
                                             value={value}
@@ -174,7 +175,7 @@ const InfoMain = (props) => {
                                     />
                                     )}
                                     name='majors'
-                                    defaultValue={data.info.major}
+                                    defaultValue={dataAPI.major}
                                 />  
         </View> 
         <View style={{paddingHorizontal:15}} >
@@ -185,7 +186,7 @@ const InfoMain = (props) => {
                                         }}
                                 render={({ field: { onChange, onBlur, value, } }) => (
                                     <InputForm
-                                            textColor={R.colors.black}
+                                            textColor={R.colors.color777}
                                             onBlur={onBlur}
                                             onChangeText={onChange}
                                             value={value}
@@ -196,7 +197,7 @@ const InfoMain = (props) => {
                                     />
                                     )}
                                     name='CCCD'
-                                    defaultValue={data.info.CCCD}
+                                    defaultValue={dataAPI.CCCD}
                                 />  
         </View> 
         <View style={{paddingHorizontal:15}} >
@@ -207,7 +208,7 @@ const InfoMain = (props) => {
                                         }}
                                 render={({ field: { onChange, onBlur, value, } }) => (
                                     <InputForm
-                                            textColor={R.colors.black}
+                                            textColor={R.colors.color777}
                                             onBlur={onBlur}
                                             onChangeText={onChange}
                                             value={value}
@@ -219,7 +220,7 @@ const InfoMain = (props) => {
                                     />
                                     )}
                                     name='Pass'
-                                    defaultValue={data.info.Pass}
+                                    defaultValue={dataAPI.pass}
                                 />
             </View> 
         <ModalChangePass/>

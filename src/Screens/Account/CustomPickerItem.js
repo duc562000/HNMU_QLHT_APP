@@ -7,7 +7,7 @@ import PickerItem from "../../components/Picker/PickerItem";
 import { getFontXD,getWidth } from "../../Config/Functions";
 
 
-const CustomPickerItem =({control,title,placeholder,name,defaultValue,data}) => {
+const CustomPickerItem =({control,title,placeholder,name,defaultValue,data,value}) => {
     return(
         <View style={{paddingHorizontal:15}} >
                         <Controller
@@ -15,15 +15,14 @@ const CustomPickerItem =({control,title,placeholder,name,defaultValue,data}) => 
                             rules={{
                                 required: false,
                                     }}
-                            render={({ field: { onChange, onBlur, value } }) => (
+                            render={({ field: { onChange,value} }) => (
                                 <PickerItem 
-                                    width={getWidth()-40}
                                     value={value}
+                                    onValueChange ={onChange}
+                                    width={getWidth()-40}
                                     data={data}
                                     title={title}
-                                    onValueChange={onChange}
                                     defaultValue={defaultValue}
-                                    onBlur={onBlur}
                                     /> 
                                 )}
                                 

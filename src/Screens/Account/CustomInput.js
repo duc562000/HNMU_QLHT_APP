@@ -5,7 +5,7 @@ import InputForm from "../../components/Input/InputForm";
 import R from "../../assets/R";
 
 
-const CustomInput =({control,title,placeholder,name,defaultValue,QRcode,heightInput,widthInput,keyboardType,onChangeText}) => {
+const CustomInput =({control,title,placeholder,name,defaultValue,QRcode,heightInput,widthInput,keyboardType,onChangeText,multiline}) => {
     return(
         <View style={{paddingHorizontal:15}} >
                             <Controller
@@ -27,6 +27,7 @@ const CustomInput =({control,title,placeholder,name,defaultValue,QRcode,heightIn
                                             heightInput={heightInput}
                                             widthInput={widthInput}
                                             keyboardType={keyboardType}
+                                            multiline ={multiline}
                                     />
                                     )}
                                     name={name}

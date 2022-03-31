@@ -40,7 +40,8 @@ const TextField = (props) => {
     autoCapitalize,
     heightInput,
     widthInput,
-    secureTextEntry
+    secureTextEntry,
+    multiline
   } = props;
   return (
     <View>
@@ -63,6 +64,7 @@ const TextField = (props) => {
           secureTextEntry={secureTextEntry ? secureTextEntry : isPassword && !showPassword }
           autoCapitalize={autoCapitalize ? autoCapitalize : "none"}
           value={value}
+          multiline={multiline ? true : false}
           fontSize={13}
           keyboardType={keyboardType}
           onChangeText={(val) => {
@@ -83,7 +85,14 @@ const TextField = (props) => {
             paddingHorizontal: padding ? padding : 15,
             backgroundColor: R.colors.colorBgInputText,
             borderRadius: 10,
-            borderWidth:0.5,
+            shadowColor: "#000",
+            shadowOffset: {
+              width: 0,
+              height: 2,
+            },
+            shadowOpacity: 0.25,
+            shadowRadius: 3.84,
+            elevation: 5,
           }}
         />
         {isPassword && <TouchableOpacity style={{position: 'absolute', right: 17}}

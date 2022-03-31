@@ -29,17 +29,18 @@ import { data } from "../Account/MaterialInfoTab";
 
 const HomeView = (props) => {
   const navigate = useNavigation();
-  
+  const {item} = props
   return (
     <View style={{ flex:1 ,backgroundColor:'#000'}}>
       <HeaderTitleLeft  title={"HNMU EDU"}/>
         
         <ImageBackground style={{width:'100%',height:'100%'}} source={R.images.bgLogo2}>
-          <View style={{margin:15,flex:1/2,paddingBottom:25,paddingTop:5}}>
+          <View style={{margin:15,flex:1/2,paddingBottom:30,paddingTop:5}}>
                 <ImageBackground
                   borderRadius={15} 
                   source={R.images.bgMainAvt2}
-                  style={{
+                  style={{ 
+                          height:'100%',
                           flexDirection:'row',
                           marginVertical:15,
                           shadowOpacity:0.2,
@@ -54,9 +55,9 @@ const HomeView = (props) => {
                   />
                   <View style={{flexDirection:'column',margin:15,alignItems:'center'}}>
                     <Text style={{color:'#fff',fontSize:18,paddingVertical:5}}>Xin chào !</Text>
-                    <Text style={styles.txtInfo}>{data.info.name}</Text>
-                    <Text style={styles.txtInfo}>{data.info.major}</Text>
-                    <Text style={styles.txtInfo}>{data.info.studentCode}</Text>
+                    <Text style={styles.txtInfo}>{item.name}</Text>
+                    <Text style={styles.txtInfo}>{item.major}</Text>
+                    <Text style={styles.txtInfo}>{item.studentCode}</Text>
                   </View>
                 </ImageBackground>
           </View>
@@ -74,8 +75,8 @@ const HomeView = (props) => {
             </View>
             <View style={{flexDirection:'row',justifyContent:'space-between',paddingVertical:5}}> 
               <ButtonList title='Ghi chú' iconsName='edit' Screen = {NOTE_SCREEN} /> 
-              <ButtonList title='Liên hệ' iconsName='wechat' Screen = {CONTACT} />
               <ButtonList title='Tuyển sinh' iconsName='graduation-cap' Screen = {ADMISSONS_WEBVIEW}/>
+              <ButtonList title='Liên hệ' iconsName='wechat' Screen = {CONTACT} />
             </View>
           </ImageBackground>
         </ImageBackground>
@@ -91,7 +92,7 @@ const styles = StyleSheet.create({
     shadowOpacity:0.3,
     shadowRadius:2,
     paddingHorizontal:10,
-    paddingVertical:38,
+    paddingVertical:55,
   },
   txtInfo:{
     color:'#fff',

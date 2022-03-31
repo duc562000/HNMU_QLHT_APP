@@ -55,7 +55,8 @@ const data = [
 ]
 
 
-const Quiz = () => {
+const Quiz = (props) => {
+    const item = props.item
     const {
         control,
         handleSubmit,
@@ -99,7 +100,7 @@ const Quiz = () => {
 
     const DoneToHome = () => {
         setShowScoreModal(false);
-        navigate.navigate(TABNAVIGATOR)
+        navigate.navigate(TABNAVIGATOR,{item})
         // setCurrentQuestionIndex(0);
         // setScore(0);
 

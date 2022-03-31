@@ -15,6 +15,11 @@ import RootView from "./src/RootView";
 import createSagaMiddleware from "redux-saga";
 import rootSaga from "./src/Saga/rootSaga";
 import FirebaseNotification from "./src/helper/FirebaseNotification";
+import { LogBox } from 'react-native';
+
+LogBox.ignoreLogs([
+  "[react-native-gesture-handler] Seems like you\'re using an old API with gesture components, check out new Gestures system!",
+]);
 const sagaMiddleware = createSagaMiddleware();
 
 let store = createStore(rootReducer, applyMiddleware(sagaMiddleware));

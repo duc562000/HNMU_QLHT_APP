@@ -28,10 +28,13 @@ const AccountView = (props) => {
   const onChangeText = text => setText(text);
   const [modalSave, setModalSave] = useState(false);
   const [modalEditPass, setModalEditPass] = useState(false);
+  const item = props.item
   return (
     <View style={{flex:1}}>
       <HeaderTitleLeft title={'THÔNG TIN CÁ NHÂN'} isExit={true} />
-          <MaterialInfoTab/>
+          <MaterialInfoTab
+            item = {item}
+          />
     </View>
   );
 };

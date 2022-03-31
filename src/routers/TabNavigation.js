@@ -23,6 +23,7 @@ const TabNavigator = (props) => {
   const navigate = useNavigation();
   const [isClicked,setiClicked] = useState(false)
   const ref = useNavigationContainerRef(null);
+  const item = props.route.params.item
   return (
     
     <View style={{ flex: 1 }} >
@@ -41,6 +42,7 @@ const TabNavigator = (props) => {
         <Tab.Screen
           name="HomeScreen"
           component={Home}
+          initialParams={{item}}
           options={{
             tabBarIcon: ({ color, size,focused }) => (
               <View style={{alignItems:'center',justifyContent:'center',top:8}}>
@@ -113,6 +115,7 @@ const TabNavigator = (props) => {
         <Tab.Screen
           name="AccountScreen"
           component={Account}
+          initialParams={{item}}
           options={{
             tabBarLabel: 'Cá nhân' ,
             tabBarIcon: ({ color, size,focused }) => (

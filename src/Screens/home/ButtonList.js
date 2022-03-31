@@ -25,11 +25,10 @@ const ButtonList = (props) => {
                     alignItems:'center',
                     backgroundColor: '#fff',
                     borderRadius: 15,
-                    width: 80,
-                    height:80,
+                    width: 69,
+                    height:69,
                     shadowOpacity:0.05,
                     borderColor:'#fff',
-                   
                   }}
                   onPress={handlePress}
                 />

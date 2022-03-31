@@ -1,20 +1,61 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, SafeAreaView, StatusBar, Image, TouchableOpacity, Modal, Animated,StyleSheet,ScrollView, ImageBackground } from 'react-native'
+import { View, Text, SafeAreaView, StatusBar, Image, TouchableOpacity, Modal, Animated,StyleSheet,ScrollView, ImageBackground, Alert } from 'react-native'
 import R from '../../assets/R';
 // import data from '../Survey/QuizData';ß
 import Feather from 'react-native-vector-icons/Feather';
-import {TABNAVIGATOR} from '../../routers/ScreenNames';
+import {LOGINSCREEN, TABNAVIGATOR} from '../../routers/ScreenNames';
 import Button from '../../components/Button';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useNavigation} from '@react-navigation/native';
 import InputForm from '../../components/Input/InputForm';
 import { Controller,useForm } from 'react-hook-form';
 import AntDesign  from "react-native-vector-icons/AntDesign";
+import { editUserApi, loginApi } from '../../apis/Functions/users';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const ModalChangePass = (props) => {
-    const onSubmit = (data) => {
-        setShowScoreModal(!showScoreModal)
-        console.log(data);
+    const navigate = useNavigation();
+    const [response,setResponse] = useState([])
+    // const setData = () => {
+    //     const UserData = async () => {
+    //         let response = await loginApi({
+    //         });
+    //         setResponse(response);
+    //     }
+    //     UserData()
+    //     };
+    //     useEffect(() => {
+    //         setData();
+    //     }, []);
+    const onSubmit = async (data) => {
+        try {
+            let response = await editUserApi({
+            })
+            console.log(response.data.pass);
+            if (data.passOld == response.data.pass) {
+                if ( data.newPass == data.reNewPass && (data.newPass  !== data.passOld && data.reNewPass !== data.passOld)) {
+                    editUserApi({
+                        pass : data.newPass
+                    })
+                    setShowScoreModal(!showScoreModal)
+                    AsyncStorage.clear();
+                    navigate.reset({
+                        index: 0,
+                        routes: [{ name: LOGINSCREEN }],
+                    });
+                    Alert.alert('Đổi mật khẩu thành công', 'Vui lòng đăng nhập lại để sử dụng !')
+                } else if (data.newPass !== data.reNewPass) {
+                    Alert.alert('Các mật khẩu mới đã nhập không khớp. Hãy thử lại !')
+                } else {
+                    Alert.alert('Mật khẩu mới không được trùng mật khẩu cũ !')
+                }
+                
+            } else {
+                Alert.alert('Mật khẩu cũ không chính xác')
+            }
+        } catch(error) {
+            alert(error.message);
+        }
       };
       const {
         control,
@@ -82,6 +123,7 @@ const ModalChangePass = (props) => {
                                             placeholder={"Nhập mật khẩu cũ"}
                                             name={'mật khẩu cũ'}
                                             title={'Mật khẩu cũ'}
+                                            isPassword='true'
                                     />
                                     )}
                                     name='passOld'
@@ -106,6 +148,7 @@ const ModalChangePass = (props) => {
                                             placeholder={" Nhập mật khẩu mới"}
                                             title={'Mật khẩu mới'}
                                             name={'mật khẩu mới'}
+                                            isPassword='true'
                                     />
                                     )}
                                     name='newPass'
@@ -130,6 +173,7 @@ const ModalChangePass = (props) => {
                                             placeholder={"Nhập lại mật khẩu mới"}
                                             title={'Nhập lại mật khẩu mới'}
                                             name={'lại mật khẩu mới'}
+                                            isPassword='true'
                                     />
                                     )}
                                     name='reNewPass'

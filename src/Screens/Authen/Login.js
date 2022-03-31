@@ -12,28 +12,37 @@ import Button from '../../components/Button';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
 import ModalForgotPass from '../../components/Modal/ModalForgotPass';
+import { loginApi } from '../../apis/Functions/users';
 
 function Login() {
   const navigate = useNavigation();
-  const [pass,setPass] = useState("")
   const {
     control,
     handleSubmit,
     formState: { errors },
   } = useForm({
-    defaultValues: {
-      masinhvien: '',
-      pass: '',
-    },
   });
-  const onSubmit = ({ masinhvien, pass }) => {
-    if(masinhvien=='218401109' && pass =='562000'){
-      navigate.navigate(SURVEYSTEP1);
-      console.log({masinhvien,pass});
-    } else {
-      Alert.alert('Sai tên đăng nhập hoặc mật khẩu')
-    }
-    
+  const onSubmit = async (data) => {
+    try {
+      const res = await loginApi({
+      }); 
+          if (res.status == 200 ) {
+              let temp = false
+              res.data.filter((item) => {
+                  if(data.masinhvien == item.masinhvien && data.pass == item.pass) {
+                      temp = true
+                      console.log("res",res.data)
+                      navigate.navigate(SURVEYSTEP1,{item}) 
+                  } else if (temp === false)  {
+                    temp = true
+                    Alert.alert('Sai tên đăng nhập hoặc mật khẩu')
+                  }
+              })
+          }
+          
+  } catch(error) {
+      alert(error.message);
+  }
     
   };
 

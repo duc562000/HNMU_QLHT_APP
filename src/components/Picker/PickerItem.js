@@ -150,7 +150,14 @@ export default class PickerItem extends Component {
             fontWeight: '400',
             backgroundColor: R.colors.colorBgInputText,
             borderRadius: 10,
-            borderWidth:0.5,
+            shadowColor: "#000",
+            shadowOffset: {
+              width: 0,
+              height: 2,
+            },
+            shadowOpacity: 0.25,
+            shadowRadius: 3.84,
+            elevation: 5,
             }
           ]}
           >
@@ -188,20 +195,23 @@ export default class PickerItem extends Component {
           dropdownStyle={[
             styles.dropdown_dropdown,{
               width: widthInput ? widthInput : WIDTHXD(960),
+              
             },
             {maxHeight: HEIGHTXD(99 * Math.min(data.length, 6) + 12)},
              width && {width},
           ]}
           options={data !== null && data}
           onSelect={(value) => {
-            onValueChange && onValueChange(value, data[value]);
+            onValueChange && onValueChange(value, data[value].name);
             this.setState({value: data[value].name});
+            console.log(data[value].name);
           }}
           renderRow={(option, index, isSelected) => (
             <View
               style={[
                 styles.dropdown_row,
-                {backgroundColor: isSelected ? '#1C6AF6' : '#f2f2f2'},
+                {backgroundColor: isSelected ? '#1C6AF6' : '#f2f2f2',},
+                
               ]}>
               <Text
                 numberOfLines={1}
@@ -211,6 +221,7 @@ export default class PickerItem extends Component {
                     marginHorizontal: WIDTHXD(30),
                     color: isSelected ? 'white' : 'black',
                     fontWeight: isSelected ? 'bold' : '300',
+                    
                   },
                 ]}>
                 {`${option.name}`}
@@ -238,6 +249,7 @@ const styles = StyleSheet.create({
   cell: {
     flex:0,
     paddingBottom:15,
+    
   },
   dropdown: {
     alignSelf: 'center',
@@ -246,6 +258,7 @@ const styles = StyleSheet.create({
   },
   dropdown_text: {
     fontSize: getFontXD(42),
+    
   },
   dropdown_dropdown: {
     width:WIDTHXD(960),
@@ -261,12 +274,14 @@ const styles = StyleSheet.create({
     shadowRadius: 1.41,
     elevation: 2,
     marginTop: Platform.OS == 'ios' ? 0 : -21,
+    
   },
   dropdown_row: {
     flexDirection: 'row',
     height: HEIGHTXD(100),
     alignItems: 'center',
     paddingHorizontal: 5,
+    
   },
   dropdown_row_text: {
     // marginHorizontal: 4,
@@ -276,6 +291,7 @@ const styles = StyleSheet.create({
   dropdown_separator: {
     borderBottomWidth: 0.3,
     borderBottomColor: R.colors.iconGray,
+    
   },
   pickerStyle: {
     width: '100%',
@@ -289,5 +305,6 @@ const styles = StyleSheet.create({
     fontSize: getFontXD(42),
     paddingHorizontal: 15,
     backgroundColor: 'white',
+    
   },
 });

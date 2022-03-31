@@ -11,26 +11,70 @@ import PickerItem from "../../components/Picker/PickerItem";
 import Button from "../../components/Button";
 import CustomInput from './CustomInput'
 import CustomPickerItem from "./CustomPickerItem";
+import { editUserApi, loginApi, provinceApi } from "../../apis/Functions/users";
 
-
-
+const dataDantoc = [
+    {name:"Kinh"},
+    {name:"Tày"},
+    {name:"Thái"}
+]
 
 const InfoOther = (props) => {
-  const {data}=props
+  const {data,dataAPI}=props
+  const [response,setResponse] = useState([])
+  const [proviceData,setProviceData] = useState([])
+  const [valueData,setValueData] = useState([])
   const {
     control,
     handleSubmit,
     formState: { errors },
     setValue
   } = useForm();
-  const onSubmit = (data) => {
-    console.log(data);
-    
-  };
+const getDataprovinces = async () => {
+        let response = await provinceApi({
+        });
+        setProviceData(response.data.map((item) => 
+        {
+            return {
+                name: item.name,
+            }
+        }
+        
+        ))
+};
+// console.log(proviceData[2].name);
+useEffect(() => {
+    getDataprovinces();
+}, []);
 
+const setData = () => {
+    const UserData = async () => {
+        let response = await loginApi({
+        });
+        setResponse(response);
+    }
+    UserData()
+    };
+    useEffect(() => {
+        setData();
+    }, []);
+  const onSubmit = async (data) => {
+    let response = await editUserApi({
+        "Xa": data.xa,
+        "Huyen": data.huyen,
+        "Tinh": proviceData[data.tinh].name,
+        "QuocTich":data.quoctich,
+        "Dantoc": dataDantoc[data.dantoc].name,
+        "TonGiao": data.tongiao,
+        "address": data.adress,
+        "bhyt": data.bhyt,
+        "sdt": data.sdt,
+    })
+    setData();
+  };
   const navigation = useNavigation();
 //   const [text, setText] = ("");
-  
+//   console.log('proviec',proviceData.data);
   return (
     
       <ImageBackground source={R.images.bgBody} style={{}}>
@@ -49,28 +93,21 @@ const InfoOther = (props) => {
                     control={control}
                     title="Địa chỉ cụ thể"
                     placeholder={'Nhập địa chỉ cụ thể'}
-                    defaultValue={data.info.address}
+                    defaultValue={dataAPI.address}
                     name='adress'
-                    
-                    // onChangeText={text=>{
-                    //     setText(text)
-                    //   }}
                 />
                 <CustomPickerItem
                     control={control}
-                    title="Phường/Xã"
-                    defaultValue={data.info.Xa}
-                    data={[
-                        {name:"Nam Hải"},
-                        {name:"Nam Thanh"},
-                        {name:"Nam Lợi"}
-                    ]}
-                    name='xa'
+                    title='Tỉnh/Thành phố'
+                    defaultValue={dataAPI.Tinh}
+                    data={proviceData}
+                    name='tinh'
+                    // value={proviceData}
                 />
                 <CustomPickerItem
                     control={control}
                     title='Quận/Huyện'
-                    defaultValue={data.info.Huyen}
+                    defaultValue={dataAPI.Huyen}
                     data={[
                         {name:"Nam Trực"},
                         {name:"Trực Ninh"},
@@ -80,19 +117,19 @@ const InfoOther = (props) => {
                 />
                 <CustomPickerItem
                     control={control}
-                    title='Tỉnh/Thành phố'
-                    defaultValue={data.info.Tinh}
+                    title="Phường/Xã"
+                    defaultValue={dataAPI.Xa}
                     data={[
-                        {name:"Hà Nội"},
-                        {name:"Nam Định"},
-                        {name:"Khác"}
+                        {name:"Nam Hải"},
+                        {name:"Nam Thanh"},
+                        {name:"Nam Lợi"}
                     ]}
-                    name='tinh'
+                    name='xa'
                 />
                 <CustomPickerItem
                     control={control}
                     title='Quốc tịch'
-                    defaultValue={data.info.QuocTich}
+                    defaultValue={dataAPI.QuocTich}
                     data={[
                         {name:"Việt Nam"},
                         {name:"Mỹ"},
@@ -103,18 +140,14 @@ const InfoOther = (props) => {
                 <CustomPickerItem
                     control={control}
                     title='Dân tộc'
-                    defaultValue={data.info.Dantoc}
-                    data={[
-                        {name:"Kinh"},
-                        {name:"Tày"},
-                        {name:"Thái"}
-                    ]}
+                    defaultValue={dataAPI.Dantoc}
+                    data={dataDantoc}
                     name='dantoc'
                 />
                 <CustomPickerItem
                     control={control}
                     title='Tôn giáo'
-                    defaultValue={data.info.TonGiao}
+                    defaultValue={dataAPI.TonGiao}
                     data={[
                         {name:"Thiên chúa"},
                         {name:"Đạo hồi"},
@@ -128,7 +161,7 @@ const InfoOther = (props) => {
                     control={control}
                     title='Số thẻ Bảo hiểm y tế'
                     placeholder={'Nhập Số thẻ BHYT'}
-                    defaultValue={data.info.bhyt}
+                    defaultValue={dataAPI.bhyt}
                     name='bhyt'
                     keyboardType={'number-pad'}
                 />
@@ -136,7 +169,7 @@ const InfoOther = (props) => {
                     control={control}
                     title='Số điện thoại'
                     placeholder={'Nhập Số điện thoại'}
-                    defaultValue={data.info.sdt}
+                    defaultValue={dataAPI.sdt}
                     name='sdt'
                     keyboardType={'number-pad'}
                 />

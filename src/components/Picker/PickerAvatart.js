@@ -66,7 +66,7 @@ const PickerImg = (props) => {
         )}
         <View style={styles.iconPicker}>
           <Image
-            style={{ width: 25, height: 25 }}
+            style={{ width: 25, height: 25,tintColor:R.colors.colorBtnLogin }}
             source={R.images.iconCamera}
           />
         </View>

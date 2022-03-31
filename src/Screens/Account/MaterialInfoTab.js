@@ -36,7 +36,7 @@ export const data={
 
 
 const MaterialInfoTab = (props) => {
-    
+    const item = props.item
     return (
         <>
             <Tab.Navigator
@@ -59,8 +59,8 @@ const MaterialInfoTab = (props) => {
                   }}
             >
                 
-                    <Tab.Screen   name="Thông tin chính" component={()=> <InfoMain data={data} title={"ban tin chih"} /> }  />
-                    <Tab.Screen  name="Thông tin khác" component={()=> <InfoOther data={data}   title={"ban tin chih 121"} /> } />
+                    <Tab.Screen   name="Thông tin chính" children={props => (<InfoMain data={data} dataAPI = {item} title={"ban tin chih"} {...props} />) }  />
+                    <Tab.Screen  name="Thông tin khác" children={props => (<InfoOther data={data}  dataAPI = {item} title={"ban tin chih 121"} {...props} />) } />
            </Tab.Navigator>
         </>
     )

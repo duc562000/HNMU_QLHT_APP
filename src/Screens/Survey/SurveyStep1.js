@@ -14,9 +14,9 @@ import Button from '../../components/Button';
 import SurveyScreen from './SurveyScreen';
 import HeaderTitleCenter from '../../components/Header/Header';
 
-function SurveyStep1() {
+function SurveyStep1(props) {
   const navigate = useNavigation();
-
+  const item = props.route.params.item; 
   return (
     <>
     <StatusBar barStyle='light-content'/>
@@ -44,10 +44,10 @@ function SurveyStep1() {
             </Text>
             <Button
                 title='Khai báo ngay'
-                onPress={() => navigate.navigate(SURVEYSCREEN)}
+                onPress={() => navigate.navigate(SURVEYSCREEN,{item})}
             />
             <TouchableOpacity
-                onPress={() => navigate.navigate(TABNAVIGATOR)}
+                onPress={() => navigate.navigate(TABNAVIGATOR,{item})}
             >
                 <Text
                     style={{

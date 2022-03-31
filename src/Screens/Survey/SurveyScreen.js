@@ -11,16 +11,15 @@ import { Controller,useForm } from 'react-hook-form';
 import I18n from "../../helper/i18/i18n";
 import Quiz from './Quiz';
 
-function SurveyScreen() {
+function SurveyScreen(props) {
   const navigate = useNavigation();
-
+  const item = props.route.params.item; 
   return (
     <>
     <StatusBar barStyle='light-content'/>
     <Header
       title ='Khai báo y tế'
       isBack ='true'
-      isExit='true'
     />
     <View
       style={{
@@ -29,7 +28,9 @@ function SurveyScreen() {
         alignItems: 'center',
         
         }}>
-      <Quiz/>
+      <Quiz
+        item ={item}
+      />
     </View>
     </>
   );

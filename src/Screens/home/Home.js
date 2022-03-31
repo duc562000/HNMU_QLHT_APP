@@ -4,7 +4,10 @@ import {View, Text} from 'react-native';
 import HomeView from './HomeView';
 
 const Home = (props) => {
-  return <HomeView />;
+  const item = props.route.params.item
+  return <HomeView 
+            item = {item}
+        />;
 };
 
 export default Home;
