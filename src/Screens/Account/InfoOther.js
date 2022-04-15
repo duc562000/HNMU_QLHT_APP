@@ -11,41 +11,144 @@ import PickerItem from "../../components/Picker/PickerItem";
 import Button from "../../components/Button";
 import CustomInput from './CustomInput'
 import CustomPickerItem from "./CustomPickerItem";
-import { editUserApi, loginApi, provinceApi } from "../../apis/Functions/users";
+import { DantocApi, editUserApi, huyenApi, loginApi, provinceApi, QuoctichApi, TongiaoApi, xaApi } from "../../apis/Functions/users";
 
-const dataDantoc = [
-    {name:"Kinh"},
-    {name:"Tày"},
-    {name:"Thái"}
-]
 
 const InfoOther = (props) => {
-  const {data,dataAPI}=props
-  const [response,setResponse] = useState([])
-  const [proviceData,setProviceData] = useState([])
-  const [valueData,setValueData] = useState([])
+    const {data,dataAPI}=props
+    const [response,setResponse] = useState([])
+    const [tinhSelected,setTinhSelected]=useState()
+    const [huyen,setHuyen]=useState([])
+    const [huyenSelected,setHuyenSelected]=useState()
+    const [xa,setXa]=useState([])
+    const [xaSelected,setXaSelected]=useState()
+    const [proviceData,setProviceData] = useState([])
+    const [danTocData,setDantocData] = useState([])
+    const [danTocSelected,setDantocSelected] = useState([])
+    const [quoctichData,setQuoctichData] = useState([])
+    const [quoctichSlected,setQuoctichSelected] = useState([])
+    const [tonGiaoData,setTongiaoData] = useState([])
+    const [tonGiaoSlected,setTongiaoSelected] = useState([])
+
+
+
+  //Gọi danh sách tỉnh khi mở màn hình
+    useEffect(() => {
+        const getDataprovinces = async () => {
+            let response = await provinceApi({
+            });
+            setProviceData(response.data.map((item,index) => 
+            {
+                return {
+                    name: item.name,
+                    code: item.code,
+                }
+            }
+            ))
+        };
+        getDataprovinces()
+    }, []);
+  //Gọi danh sách huyện khi ng dùng chọn tỉnh( có id tỉnh để truyền lên api)
+  
+  useEffect(()=>{
+    const getDataHuyen = async () => {
+        let response = await huyenApi(tinhSelected, {});
+        setHuyen(response.data.districts.map((item,index) => 
+            {
+                return {
+                    name: item.name,
+                    code: item.code,
+                }
+            }
+            ))
+            
+    };
+    getDataHuyen();
+},[tinhSelected])
+  //Gọi danh sách xa khi ng dùng chọn huyện (có id huyện để truyền lên api)
+  useEffect(()=>{
+    const getDataXa = async () => {
+        let response = await xaApi(huyenSelected, {});
+        setXa(response.data.wards.map((item,index) => 
+            {
+                return {
+                    name: item.name,
+                    code: item.code,
+                }
+            }
+            ))
+        console.log('xa',xa)
+        // setXaSelected(name)
+    };
+    getDataXa();
+
+},[huyenSelected])
+
   const {
     control,
     handleSubmit,
     formState: { errors },
     setValue
   } = useForm();
-const getDataprovinces = async () => {
-        let response = await provinceApi({
-        });
-        setProviceData(response.data.map((item) => 
+
+
+
+const getDantoc = async () => {
+    let response = await DantocApi({
+    });
+    setDantocData(response.data.map((item,index) => 
         {
             return {
                 name: item.name,
             }
         }
-        
         ))
 };
-// console.log(proviceData[2].name);
 useEffect(() => {
-    getDataprovinces();
+    getDantoc();
 }, []);
+
+const onValueChange=(val,name)=>{
+    setTinhSelected(val)
+    setHuyenSelected(val)
+    setXaSelected(val)
+    setTongiaoSelected(name)
+    setQuoctichSelected(name)
+    setDantocSelected(name)
+}
+
+
+const getQuoctich = async () => {
+    let response = await QuoctichApi({
+    });
+    setQuoctichData(response.data.map((item,index) => 
+        {
+            return {
+                name: item.name_vi,
+            }
+        }
+        ))
+};
+useEffect(() => {
+    getQuoctich();
+}, []);
+
+const getTongiao = async () => {
+    let response = await TongiaoApi({
+    });
+    setTongiaoData(response.data.map((item,index) => 
+        {
+            return {
+                name: item.TenTonGiao,
+            }
+        }
+        ))
+};
+useEffect(() => {
+    getTongiao();
+}, []);
+
+
 
 const setData = () => {
     const UserData = async () => {
@@ -58,23 +161,23 @@ const setData = () => {
     useEffect(() => {
         setData();
     }, []);
-  const onSubmit = async (data) => {
+const onSubmit = async (data) => {
     let response = await editUserApi({
-        "Xa": data.xa,
-        "Huyen": data.huyen,
-        "Tinh": proviceData[data.tinh].name,
-        "QuocTich":data.quoctich,
-        "Dantoc": dataDantoc[data.dantoc].name,
-        "TonGiao": data.tongiao,
-        "address": data.adress,
+        "xa": data.xa,
+        "huyen": data.huyen,
+        "tinh": data.tinh,
+        "quoctich":data.quoctich,
+        "dantoc": data.dantoc,
+        "tongiao": data.tongiao,
+        "address": data.address,
         "bhyt": data.bhyt,
         "sdt": data.sdt,
+        
     })
     setData();
   };
+  
   const navigation = useNavigation();
-//   const [text, setText] = ("");
-//   console.log('proviec',proviceData.data);
   return (
     
       <ImageBackground source={R.images.bgBody} style={{}}>
@@ -94,65 +197,55 @@ const setData = () => {
                     title="Địa chỉ cụ thể"
                     placeholder={'Nhập địa chỉ cụ thể'}
                     defaultValue={dataAPI.address}
-                    name='adress'
+                    name='address'
+
                 />
                 <CustomPickerItem
                     control={control}
                     title='Tỉnh/Thành phố'
-                    defaultValue={dataAPI.Tinh}
+                    onValueChange={onValueChange}
+                    defaultValue={dataAPI.tinh}
                     data={proviceData}
                     name='tinh'
-                    // value={proviceData}
                 />
                 <CustomPickerItem
                     control={control}
                     title='Quận/Huyện'
-                    defaultValue={dataAPI.Huyen}
-                    data={[
-                        {name:"Nam Trực"},
-                        {name:"Trực Ninh"},
-                        {name:"Hải Hậu"}
-                    ]}
+                    defaultValue={dataAPI.huyen}
+                    onValueChange={onValueChange}
+                    data={huyen}
                     name='huyen'
                 />
                 <CustomPickerItem
                     control={control}
                     title="Phường/Xã"
-                    defaultValue={dataAPI.Xa}
-                    data={[
-                        {name:"Nam Hải"},
-                        {name:"Nam Thanh"},
-                        {name:"Nam Lợi"}
-                    ]}
+                    defaultValue={dataAPI.xa}
+                    onValueChange={onValueChange}
+                    data={xa}
                     name='xa'
                 />
                 <CustomPickerItem
                     control={control}
                     title='Quốc tịch'
-                    defaultValue={dataAPI.QuocTich}
-                    data={[
-                        {name:"Việt Nam"},
-                        {name:"Mỹ"},
-                        {name:"Ấn Độ"}
-                    ]}
+                    defaultValue={dataAPI.quoctich}
+                    onValueChange={onValueChange}
+                    data={quoctichData}
                     name='quoctich'
                 />
                 <CustomPickerItem
                     control={control}
                     title='Dân tộc'
-                    defaultValue={dataAPI.Dantoc}
-                    data={dataDantoc}
+                    defaultValue={dataAPI.dantoc}
+                    onValueChange={onValueChange}
+                    data={danTocData}
                     name='dantoc'
                 />
                 <CustomPickerItem
                     control={control}
                     title='Tôn giáo'
-                    defaultValue={dataAPI.TonGiao}
-                    data={[
-                        {name:"Thiên chúa"},
-                        {name:"Đạo hồi"},
-                        {name:"Không"}
-                    ]}
+                    defaultValue={dataAPI.tongiao}
+                    onValueChange={onValueChange}
+                    data={tonGiaoData}
                     name='tongiao'
                 />
                 

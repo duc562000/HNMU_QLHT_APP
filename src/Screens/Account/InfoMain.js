@@ -208,12 +208,12 @@ const InfoMain = (props) => {
                                         }}
                                 render={({ field: { onChange, onBlur, value, } }) => (
                                     <InputForm
-                                            textColor={R.colors.color777}
+                                            // textColor={R.colors.color777}
                                             onBlur={onBlur}
                                             onChangeText={onChange}
-                                            value={value}
-                                            placeHolderColor={"#333"}
-                                            placeholder={"Mật khẩu"}
+                                            // value={value}
+                                            placeHolderColor={R.colors.color777}
+                                            placeholder={"*****************************"}
                                             title={'Mật khẩu'}
                                             editable={false}
                                             secureTextEntry={true}

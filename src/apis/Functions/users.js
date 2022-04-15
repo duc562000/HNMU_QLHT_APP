@@ -14,17 +14,23 @@ export const provinceApi = async (body) =>
   GetData(url.urlTinh,body)
     .then((res) => res)
     .catch((err) => err);
-// export const getListNews = async (body) =>
-//   GetData(url.urlListUsers, body)
-//     .then((res) => res)
-//     .catch((err) => err);
-
-// export const changePassword = async (body) =>
-//   PostData(url.urlChangePassword, body)
-//     .then((res) => res)
-//     .catch((err) => err);
-
-// export const TestAPI = async (body) =>
-//   GetData("https://pokeapi.co/api/v2/pokemon/ditto", {})
-//     .then((res) => res)
-//     .catch((err) => err);
+export const huyenApi = async (provinceCode,body) =>
+  GetData(`https://provinces.open-api.vn/api/p/${provinceCode}?depth=2`,body)
+    .then((res) => res)
+    .catch((err) => err);
+export const xaApi = async (districtCode,body) =>
+  GetData(`https://provinces.open-api.vn/api/d/${districtCode}?depth=2`,body)
+    .then((res) => res)
+    .catch((err) => err);
+export const DantocApi = async (body) =>
+  GetData(url.urlDantoc,body)
+    .then((res) => res)
+    .catch((err) => err);
+export const QuoctichApi = async (body) =>
+  GetData(url.urlQuoctich,body)
+    .then((res) => res)
+    .catch((err) => err);
+export const TongiaoApi = async (body) =>
+  GetData(url.urlTongiao,body)
+    .then((res) => res)
+    .catch((err) => err);

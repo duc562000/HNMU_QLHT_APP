@@ -10,7 +10,7 @@ export const daNop=[
         {
             title:'HK1 2018-2019',
             hocky:'1',
-            id:'1',
+            id:1,
             namhoc:'2018-2019',
             status:'Đã thanh toán',
             icName :'check-circle',
@@ -25,7 +25,7 @@ export const daNop=[
         {
             title:'HK2 2019-2020',
             hocky:'2',
-            id:'2',
+            id:2,
             namhoc:'2019-2020',
             status:'Đã thanh toán',
             icName :'check-circle',
@@ -40,7 +40,7 @@ export const daNop=[
         {
             title:'HK1 2019-2020',
             hocky:'1',
-            id:'3',
+            id:3,
             namhoc:'2019-2020',
             status:'Đã thanh toán',
             icName :'check-circle',
@@ -55,7 +55,7 @@ export const daNop=[
         {
             title:'HK2 2020-2021',
             hocky:'2',
-            id:'4',
+            id:4,
             namhoc:'2020-2021',
             status:'Đã thanh toán',
             icName :'check-circle',
@@ -70,7 +70,7 @@ export const daNop=[
         {
             title:'HK1 2020-2021',
             hocky:'1',
-            id:'5',
+            id:5,
             namhoc:'2020-2021',
             status:'Đã thanh toán',
             icName :'check-circle',
@@ -85,7 +85,7 @@ export const daNop=[
         {
             title:'HK2 2021-2022',
             hocky:'2',
-            id:'5',
+            id:6,
             namhoc:'2021-2022',
             status:'Đã thanh toán',
             icName :'check-circle',
@@ -104,7 +104,7 @@ const chuanop=[
     {
         title:'HK1 2021-2022',
         hocky:'1',
-        id:'1',
+        id:1,
         namhoc:'2021-2022',
         status:'Chưa nộp đủ',
         icName :'alert-circle',
@@ -119,7 +119,7 @@ const chuanop=[
     {
         title:'HK2 2022-2023',
         hocky:'2',
-        id:'1',
+        id:2,
         namhoc:'2022-2023',
         status:'Chưa thanh toán',
         icName :'x-circle',
@@ -161,8 +161,8 @@ const MaterialTuitionTab = (props) => {
                   }}
             >
                 
-                    <Tab.Screen   name="Đã nộp" component={()=> <TableTuition data={daNop}  title={"Danop"} /> }  />
-                    <Tab.Screen  name="Chưa nộp" component={()=> <TableTuition data={chuanop}  title={"chuanop"} /> } />
+                    <Tab.Screen   name="Đã nộp" children={()=> <TableTuition data={daNop}  title={"Danop"} /> }  />
+                    <Tab.Screen  name="Chưa nộp" children={()=> <TableTuition data={chuanop}  title={"chuanop"} /> } />
            </Tab.Navigator>
         </>
     )

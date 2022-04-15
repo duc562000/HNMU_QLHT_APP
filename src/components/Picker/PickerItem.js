@@ -202,9 +202,8 @@ export default class PickerItem extends Component {
           ]}
           options={data !== null && data}
           onSelect={(value) => {
-            onValueChange && onValueChange(value, data[value].name);
+            onValueChange && onValueChange(data[value].code, data[value].name);
             this.setState({value: data[value].name});
-            console.log(data[value].name);
           }}
           renderRow={(option, index, isSelected) => (
             <View
